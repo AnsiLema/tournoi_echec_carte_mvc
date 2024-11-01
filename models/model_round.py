@@ -1,4 +1,3 @@
-
 import datetime
 
 class Round:
@@ -7,6 +6,10 @@ class Round:
         self.matches = []
         self.start_date = datetime.datetime.now()
         self.end_date = None
+
+    def add_match(self, match):
+        """Adds a match to the round."""
+        self.matches.append(match)
 
     def finish_round(self):
         self.end_date = datetime.datetime.now()

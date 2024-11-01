@@ -10,19 +10,21 @@ class Tournament:
         self.rounds = []
         self.players = []
 
-    def add_round(self, round):
-        """
-        :param round: The 'round' parameter represents an instance of a round to be added to the rounds list.
-        :return: None
-        """
-        self.rounds.append(round)
-
     def add_player(self, player):
         player.score = 0
         player.opponents = []
         self.players.append(player)
 
+    def start_new_round(self):
+        """Starts a new round & generates pairs for match"""
+        round_name = f"Round {self.current_round}"
+
     def __repr__(self):
         return (f"Tournament(name={self.name},"
                 f" location={self.location}, "
                 f"start_date={self.start_date})")
+
+    def __str__(self):
+        return (f"{self.name} - "
+                f"{self.location} - "
+                f"{self.start_date}")
