@@ -27,21 +27,17 @@ class Match:
         return str(self)
 
     def add_points(self, result):
-        """
-        Adds points to layers based on the match result.
-
-        Parameters:
-        result : str
-            The result of the match ('1' player 1 wins, 'N' for draw, '2' player 2 wins).
-        """
         if result == '1':
-            points = self.MATCH_SCORE[0]
+            self.match[0][0].score += self.MATCH_SCORE[0][0]
+            self.match[1][0].score += self.MATCH_SCORE[0][1]
         elif result == 'N':
-            points = self.MATCH_SCORE[1]
+            self.match[0][0].score += self.MATCH_SCORE[1][0]
+            self.match[1][0].score += self.MATCH_SCORE[1][1]
         elif result == '2':
-            points = self.MATCH_SCORE[2]
+            self.match[0][0].score += self.MATCH_SCORE[2][0]
+            self.match[1][0].score += self.MATCH_SCORE[2][1]
         else:
             raise ValueError("Le résultat du match doit être '1', 'N', ou '2'.")
 
-        self.match[0][1] += points[0]
-        self.match[1][1] += points[1]
+
+print(Match.__doc__)
