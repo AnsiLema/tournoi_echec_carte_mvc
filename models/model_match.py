@@ -39,5 +39,3 @@ class Match:
         else:
             raise ValueError("Le résultat du match doit être '1', 'N', ou '2'.")
 
-
-print(Match.__doc__)

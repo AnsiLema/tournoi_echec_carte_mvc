@@ -6,6 +6,6 @@ class Player:
         self.national_id = national_id
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f" {self.last_name} {self.first_name}"
 
 
