@@ -27,15 +27,20 @@ class Match:
         return str(self)
 
     def add_points(self, result):
-        if result == '1':
-            self.match[0][0].score += self.MATCH_SCORE[0][0]
-            self.match[1][0].score += self.MATCH_SCORE[0][1]
-        elif result == 'N':
-            self.match[0][0].score += self.MATCH_SCORE[1][0]
-            self.match[1][0].score += self.MATCH_SCORE[1][1]
-        elif result == '2':
-            self.match[0][0].score += self.MATCH_SCORE[2][0]
-            self.match[1][0].score += self.MATCH_SCORE[2][1]
-        else:
-            raise ValueError("Le résultat du match doit être '1', 'N', ou '2'.")
-
+        while True:
+            result = input(
+                f"Entrez le résultat pour le match entre {self.match[0][0]} et {self.match[1][0]} (1 pour {self.match[0][0]}, N pour nul, 2 pour {self.match[1][0]}): ").strip()
+            if result == "1":
+                self.match[0][0].score += self.MATCH_SCORE[0][0]
+                self.match[1][0].score += self.MATCH_SCORE[0][1]
+                break
+            elif result in ["N", "n"]:
+                self.match[0][0].score += self.MATCH_SCORE[1][0]
+                self.match[1][0].score += self.MATCH_SCORE[1][1]
+                break
+            elif result == "2":
+                self.match[0][0].score += self.MATCH_SCORE[2][0]
+                self.match[1][0].score += self.MATCH_SCORE[2][1]
+                break
+            else:
+                print("Entrée invalide. Veuillez entrer '1', 'N' ou '2''.")

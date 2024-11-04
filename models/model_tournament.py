@@ -10,7 +10,7 @@ class Tournament:
         self.end_date = end_date
         self.description = description
         self.number_of_rounds = number_of_rounds
-        self.current_round = 1
+        self.current_round = []
         self.rounds = []
         self.players = []
 
@@ -18,6 +18,13 @@ class Tournament:
         player.score = 0
         player.opponents = []
         self.players.append(player)
+
+    def add_round(self):
+        round_number = len(self.rounds) + 1
+        round_name = f"Round {round_number}"
+        new_round = Round(name=round_name)
+        self.rounds.append(new_round)
+
 
     def start_new_round(self):
         """Démarre un nouveau round et génère les paires de matchs."""

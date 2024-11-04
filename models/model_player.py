@@ -8,6 +8,14 @@ class Player:
     def __str__(self):
         return f" {self.last_name} {self.first_name}"
 
-
+    @staticmethod
+    def from_json(data):
+        """Create a Player instance from a JSON dictionary."""
+        return Player(
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            date_of_birth=data['date_of_birth'],
+            national_id=data['national_id']
+        )
 
 
