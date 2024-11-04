@@ -2,6 +2,13 @@ from faker import Faker
 from models.model_player import Player
 from models.model_tournament import Tournament
 
+def get_tournaments():
+    pass
+
+
+def get_players():
+    pass
+
 tournament = Tournament("Chess Championship", "Paris", "2023-10-01",
                         "2023-10-15", "Annual Chess Tournament",
                         5)
