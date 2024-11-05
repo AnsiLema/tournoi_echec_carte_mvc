@@ -12,10 +12,10 @@ class Player:
     def from_json(data):
         """Create a Player instance from a JSON dictionary."""
         return Player(
-            first_name=data['first_name'],
-            last_name=data['last_name'],
-            date_of_birth=data['date_of_birth'],
-            national_id=data['national_id']
+            last_name=data["last_name"],
+            first_name=data["first_name"],
+            date_of_birth=data["date_of_birth"],
+            national_id=data["national_id"]
         )
 
 
