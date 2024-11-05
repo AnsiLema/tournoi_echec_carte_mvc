@@ -22,7 +22,8 @@ class TournamentView:
     def display_match_result(match):
         """Affiche le résultat d'un match spécifique."""
         print(f"Match : {match.match[0][0]} vs {match.match[1][0]}")
-        print(f"Score : {match.match[0][0]} - {match.score1} | {match.match[1][0]} - {match.score2}")
+        print(f"Score : {match.match[0][0]} - {match.score1} | {match.match[1][0]}"
+              f" - {match.score2}")
 
     @staticmethod
     def display_rankings(players):

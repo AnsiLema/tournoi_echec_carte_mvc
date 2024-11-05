@@ -15,10 +15,12 @@ class Match:
     MATCH_SCORE = [(1, 0), (0.5, 0.5), (0, 1)]
 
     def __init__(self, player1, player2):
-        self.match = (
-            [player1, 0],
-            [player2, 0]
-        )
+        self.match = [
+            (player1, 0),
+            (player2, 0)
+        ]
+        self.score1 = None
+        self.score2 = None
 
     def __str__(self):
         return f"Match entre {self.match[0][0]} et {self.match[1][0]}"
@@ -26,10 +28,11 @@ class Match:
     def __repr__(self):
         return str(self)
 
-    def add_points(self, result):
+    def add_points(self):
         while True:
             result = input(
-                f"Entrez le résultat pour le match entre {self.match[0][0]} et {self.match[1][0]} (1 pour {self.match[0][0]}, N pour nul, 2 pour {self.match[1][0]}): ").strip()
+                f"Entrez le résultat pour le match entre {self.match[0][0]} "
+                f"et {self.match[1][0]} (1 pour {self.match[0][0]}, N pour nul, 2 pour {self.match[1][0]}): ").strip()
             if result == "1":
                 self.match[0][0].score += self.MATCH_SCORE[0][0]
                 self.match[1][0].score += self.MATCH_SCORE[0][1]
