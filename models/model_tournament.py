@@ -54,3 +54,22 @@ class Tournament:
         return (f"{self.name} - "
                 f"{self.location} - "
                 f"{self.start_date}")
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "location": self.location,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "description": self.description,
+            "number_of_rounds": self.number_of_rounds,
+            "players": [player.to_dict() for player in self.players],
+            "rounds": [round.to_dict() for round in self.rounds]
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        tournament = cls(data["name"], data["location"], data["start_date"], data["end_date"], data["description"],
+                         data["number_of_rounds"])
+        # Charger les joueurs et rounds si nécessaire
+        return tournament
