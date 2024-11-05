@@ -49,5 +49,7 @@ def get_tournaments():
     for rank, player in enumerate(sorted_players, start=1):
         print(f"{rank}. {player} - Score: {player.score}")
 
+    print("\n=== Le tournoi est terminé ===")
+
 # Appel de la fonction pour démarrer le processus du tournoi
 get_tournaments()
