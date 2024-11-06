@@ -1,5 +1,6 @@
 import json
 from faker import Faker
+from pathlib import Path
 
 # Définition de la classe Player
 class Player:
@@ -31,8 +32,13 @@ for _ in range(30):
     player = Player(last_name, first_name, date_of_birth, national_id)
     players.append(player.to_dict())
 
-# Sauvegarde des joueurs dans un fichier JSON
-with open("players.json", "w") as file:
+# Define the path to the data folder and the JSON file
+data_folder = Path("data")
+data_folder.mkdir(exist_ok=True)  # Create the folder if it doesn't exist
+file_path = data_folder / "players.json"
+
+# Save players data to the JSON file
+with open(file_path, "w", encoding="utf-8") as file:
     json.dump(players, file, indent=4, ensure_ascii=False)
 
 print("Fichier 'players.json' créé avec succès avec 30 joueurs.")
