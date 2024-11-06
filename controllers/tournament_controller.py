@@ -26,10 +26,15 @@ class TournamentController:
             else:
                 print("Option invalide.")
 
-            if len(self.tournament.players) >= 2:
-                if PlayerMenuView.display_start_tournament_confirmation().lower() == 'retour':
-                    continue
-                break
+            while True:
+                confirmation = PlayerMenuView.display_start_tournament_confirmation()
+                if confirmation.lower() in ['', 'retour']:
+                    if confirmation == '':
+                        break  # Start the tournament
+                    else:
+                        return self.add_players()  # Return to player menu
+                else:
+                    print("Option invalide, veuillez réessayer.")
 
     def _add_new_player(self):
         """Logique interne pour ajouter un nouveau joueur."""
