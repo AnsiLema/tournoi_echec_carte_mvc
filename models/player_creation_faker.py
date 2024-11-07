@@ -1,8 +1,9 @@
 import json
 from faker import Faker
 from pathlib import Path
+from config import PLAYERS_JSON_PATH  # Import the path constant
 
-# Définition de la classe Player
+# Define the Player class
 class Player:
     def __init__(self, last_name, first_name, date_of_birth, national_id):
         self.last_name = last_name
@@ -11,7 +12,7 @@ class Player:
         self.national_id = national_id
 
     def to_dict(self):
-        """Convertit l'instance de Player en dictionnaire pour la sauvegarde JSON."""
+        """Converts the Player instance to a dictionary for JSON storage."""
         return {
             "last_name": self.last_name,
             "first_name": self.first_name,
@@ -19,11 +20,20 @@ class Player:
             "national_id": self.national_id
         }
 
-# Initialisation de Faker
+# Initialize Faker
 fake = Faker('fr_FR')
 
-# Création de 30 joueurs
-players = []
+# Ensure the data folder exists
+PLAYERS_JSON_PATH.parent.mkdir(exist_ok=True)
+
+# Load existing players if the file exists
+if PLAYERS_JSON_PATH.exists():
+    with open(PLAYERS_JSON_PATH, "r", encoding="utf-8") as file:
+        players = json.load(file)
+else:
+    players = []  # Start with an empty list if the file doesn't exist
+
+# Generate additional players (e.g., 30 players) and add them to the list
 for _ in range(30):
     last_name = fake.last_name()
     first_name = fake.first_name()
@@ -32,13 +42,8 @@ for _ in range(30):
     player = Player(last_name, first_name, date_of_birth, national_id)
     players.append(player.to_dict())
 
-# Define the path to the data folder and the JSON file
-data_folder = Path("data")
-data_folder.mkdir(exist_ok=True)  # Create the folder if it doesn't exist
-file_path = data_folder / "players.json"
-
-# Save players data to the JSON file
-with open(file_path, "w", encoding="utf-8") as file:
+# Save the updated player list to the JSON file
+with open(PLAYERS_JSON_PATH, "w", encoding="utf-8") as file:
     json.dump(players, file, indent=4, ensure_ascii=False)
 
-print("Fichier 'players.json' créé avec succès avec 30 joueurs.")
+print("The 'players.json' file was updated with 30 additional players.")

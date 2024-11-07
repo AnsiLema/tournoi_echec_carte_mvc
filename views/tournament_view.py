@@ -22,7 +22,7 @@ class TournamentView:
     def display_match_result(match):
         """Affiche le résultat d'un match spécifique."""
         print(f"Match : {match.match[0][0]} vs {match.match[1][0]}")
-        print(f"Score : {match.match[0][0]} - {match.score1} | {match.match[1][0]}"
+        print(f"Score du match : {match.match[0][0]} - {match.score1} | {match.match[1][0]}"
               f" - {match.score2}")
 
     @staticmethod
@@ -31,7 +31,7 @@ class TournamentView:
         print("\n=== Classement des joueurs ===")
         sorted_players = sorted(players, key=lambda p: p.score, reverse=True)
         for rank, player in enumerate(sorted_players, start=1):
-            print(f"{rank}. {player} - Score: {player.score}")
+            print(f"{rank}. {player} - Point(s): {player.score}")
 
     @staticmethod
     def display_final_results(players):

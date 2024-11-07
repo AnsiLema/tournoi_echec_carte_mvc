@@ -19,14 +19,8 @@ class Match:
             (player1, 0),
             (player2, 0)
         ]
-        self.score1 = None
-        self.score2 = None
-
-    def __str__(self):
-        return f"Match entre {self.match[0][0]} et {self.match[1][0]}"
-
-    def __repr__(self):
-        return str(self)
+        self.score1 = 0
+        self.score2 = 0
 
     def add_points(self):
         while True:
@@ -47,3 +41,12 @@ class Match:
                 break
             else:
                 print("Entrée invalide. Veuillez entrer '1', 'N' ou '2''.")
+
+        self.score1 = self.match[0][0].score
+        self.score2 = self.match[1][0].score
+
+    def __str__(self):
+        return f"Match entre {self.match[0][0]} et {self.match[1][0]}"
+
+    def __repr__(self):
+        return str(self)

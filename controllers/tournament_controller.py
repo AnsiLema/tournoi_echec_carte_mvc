@@ -1,4 +1,6 @@
 import json
+from typing import List, Dict
+from config import PLAYERS_JSON_PATH  # Import the path constant
 from models.model_player import Player
 from models.model_tournament import Tournament
 from views.tournament_view import TournamentView
@@ -16,13 +18,12 @@ class TournamentController:
 
     def add_players(self):
         """Handles adding players until the user decides to start the tournament."""
-        player_file = 'data/players.json'
-        players = self._load_players(player_file)
+        players = self._load_players()
 
         while True:
             choice = PlayerMenuView.display_player_menu()
             if choice == '1':
-                self._add_new_player(players, player_file)
+                self._add_new_player(players)
                 # Show the updated player count after each new addition
                 print(f"Total players registered: {len(self.tournament.players)}")
             elif choice == '2':
@@ -42,7 +43,7 @@ class TournamentController:
             elif confirmation.lower() == 'return':
                 continue  # Return to menu
 
-    def _add_new_player(self, players, player_file):
+    def _add_new_player(self, players):
         """Internal logic to add a new player and save to JSON file."""
         last_name, first_name, date_of_birth, national_id = PlayerMenuView.display_add_player_menu()
         new_player = {
@@ -52,29 +53,30 @@ class TournamentController:
             "national_id": national_id
         }
         players.append(new_player)  # Add player to the list
-        self._save_players(player_file, players)  # Save to JSON
+        self._save_players(players)  # Save to JSON
         player = Player(last_name, first_name, date_of_birth, national_id)
         self.tournament.add_player(player)
         PlayerMenuView.display_add_player_success_menu()
 
     def _select_player(self, players):
-        """Allows selecting an existing player with dynamic filtering."""
+        """Allows selecting an existing player by filtering based on the beginning of the last name."""
         filter_str = ""
-        filtered_players = players
         while True:
-            # Display filtered list of players
+            # Display players filtered by the beginning of last_name
             filtered_players = [p for p in players if p["last_name"].lower().startswith(filter_str.lower())]
+
             if not filtered_players:
                 print("No players match this filter.")
-                return  # Return to main menu
+                return  # Return to main menu if no matches
 
-            # Display filtered players
+            # Display filtered players with their full information
+            print("\nMatching Players:")
             for i, player in enumerate(filtered_players, start=1):
-                print(f"{i}. {player['first_name']} {player['last_name']}")
+                print(f"{i}. {player['first_name']} {player['last_name']} (ID: {player['national_id']})")
 
-            # User input to filter or select a player
-            input_str = input("Enter a letter to filter or a number to select a player: ")
-            if input_str.isdigit():  # If a number is entered
+            # User input to continue filtering or to select a player
+            input_str = input("Enter a letter to filter by last name or a number to select a player: ")
+            if input_str.isdigit():  # Check if input is a number
                 choice = int(input_str) - 1
                 if 0 <= choice < len(filtered_players):
                     selected_player = filtered_players[choice]
@@ -90,21 +92,24 @@ class TournamentController:
                 else:
                     print("Invalid number, please try again.")
             else:
-                filter_str += input_str  # Add letter to filter to refine results
+                # Add the input to filter_str to refine the search by the beginning of last_name
+                filter_str += input_str
 
-    def _load_players(self, filename):
-        """Loads players from a JSON file."""
+    def _load_players(self):
+        """Loads players from the consistent JSON file path."""
         try:
-            with open(filename, 'r') as f:
+            with open(PLAYERS_JSON_PATH, 'r', encoding="utf-8") as f:
                 return json.load(f)
         except FileNotFoundError:
             print("Player file not found.")
             return []
 
-    def _save_players(self, filename, players):
-        """Saves players to a JSON file."""
-        with open(filename, 'w') as f:
-            json.dump(players, f, indent=4)
+    def _save_players(self, players: List[Dict[str, str]]):
+        """Saves players to the consistent JSON file path."""
+        PLAYERS_JSON_PATH.parent.mkdir(exist_ok=True)  # Ensure the 'data' directory exists
+        with open(PLAYERS_JSON_PATH, 'w', encoding="utf-8") as f:
+            json.dump(players, f, indent=4, ensure_ascii=False)
+
 
     def start_tournament(self):
         """Starts the tournament if the conditions are met."""
