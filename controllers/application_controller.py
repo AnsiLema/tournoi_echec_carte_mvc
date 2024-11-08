@@ -36,4 +36,5 @@ class ApplicationController:
             self.tournament_controller.add_players()
             self.tournament_controller.start_tournament()
         except FileNotFoundError:
-            print("Fichier de tournoi non trouvé. Veuillez vérifier le nom et réessayer.")
+            print("Fichier de tournoi non trouvé."
+                  " Veuillez vérifier le nom et réessayer.")

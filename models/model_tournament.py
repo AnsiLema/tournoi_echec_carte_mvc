@@ -3,7 +3,11 @@ from models.model_round import Round
 
 
 class Tournament:
-    def __init__(self, name, location, start_date, end_date, description, number_of_rounds):
+    def __init__(self, name, location,
+                 start_date,
+                 end_date,
+                 description,
+                 number_of_rounds):
         self.name = name
         self.location = location
         self.start_date = start_date
@@ -15,7 +19,8 @@ class Tournament:
         self.players = []
 
     def add_player(self, player):
-        """Adds a player to the tournament and initializes their score and opponent list."""
+        """Adds a player to the tournament and initializes
+        their score and opponent list."""
         player.score = 0
         player.opponents = []  # Track opponents each player has faced
         self.players.append(player)
@@ -43,9 +48,11 @@ class Tournament:
             player2.opponents.append(player1)
 
     def generate_pairs(self):
-        """Generates unique pairs for the matches based on player scores and previous opponents."""
+        """Generates unique pairs for the matches based on player scores
+         and previous opponents."""
         # Sort players by score in descending order
-        sorted_players = sorted(self.players, key=lambda p: p.score, reverse=True)
+        sorted_players = sorted(self.players, key=lambda p: p.score,
+                                reverse=True)
         pairs = []
         used_players = set()  # Track players already paired in this round
 
@@ -55,7 +62,8 @@ class Tournament:
 
             # Find the first available player who hasn't played against player1
             for player2 in sorted_players[i + 1:]:
-                if player2 not in used_players and player2 not in player1.opponents:
+                if (player2 not in used_players and player2
+                        not in player1.opponents):
                     pairs.append((player1, player2))
                     used_players.add(player1)
                     used_players.add(player2)

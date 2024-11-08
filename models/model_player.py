@@ -1,6 +1,7 @@
 import json
 from config import PLAYERS_JSON_PATH
 
+
 class Player:
     def __init__(self, last_name, first_name, date_of_birth, national_id):
         self.last_name = last_name
@@ -9,7 +10,8 @@ class Player:
         self.national_id = national_id
 
     def __repr__(self):
-        return f"Player(last_name={self.last_name}, first_name={self.first_name})"
+        return (f"Player(last_name={self.last_name}, "
+                f"first_name={self.first_name})")
 
     def __str__(self):
         return f"{self.last_name} {self.first_name}"
@@ -47,4 +49,6 @@ class Player:
     def save_players(players):
         """Saves the player list to the JSON file."""
         with open(PLAYERS_JSON_PATH, "w", encoding="utf-8") as file:
-            json.dump([player.to_dict() for player in players], file, indent=4, ensure_ascii=False)
+            json.dump([player.to_dict() for player in players], file,
+                      indent=4,
+                      ensure_ascii=False)

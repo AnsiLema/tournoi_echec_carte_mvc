@@ -11,22 +11,35 @@ class TournamentController:
     def __init__(self):
         self.tournament = None
 
-    def create_tournament(self, name, location, start_date, end_date, description, number_of_rounds):
+    def create_tournament(self, name, location,
+                          start_date,
+                          end_date,
+                          description,
+                          number_of_rounds):
         """Initializes a new tournament with the provided information."""
-        self.tournament = Tournament(name, location, start_date, end_date, description, number_of_rounds)
+        self.tournament = Tournament(name,
+                                     location,
+                                     start_date,
+                                     end_date,
+                                     description,
+                                     number_of_rounds)
         TournamentView.display_tournament_info(self.tournament)
 
     def add_players(self):
-        """Handles adding players until the user decides to start the tournament."""
+        """Handles adding players until the user decides
+        to start the tournament."""
         players = self._load_players()
 
         while True:
             # Prompt the user to add a new player or start the tournament
-            choice = input("Sélectionnez une option :\n1. Ajouter un joueur\n2. Commencer le tournoi\n> ")
+            choice = input("Sélectionnez une option :"
+                           "\n1. Ajouter un joueur"
+                           "\n2. Commencer le tournoi\n> ")
 
             if choice == '1':
-                # Prompt to either create a new player or select from the existing players
-                add_choice = input("Voulez-vous :\n1. Créer un nouveau joueur\n2. Sélectionner un joueur existant\n> ")
+                add_choice = input("Voulez-vous :"
+                                   "\n1. Créer un nouveau joueur"
+                                   "\n2. Sélectionner un joueur existant\n> ")
 
                 if add_choice == '1':
                     # Create a new player
@@ -38,19 +51,23 @@ class TournamentController:
                     print("Option non valide, veuillez réessayer.")
                     continue
 
-                print(f"Nombre de joueurs enregistrés: {len(self.tournament.players)}")  # Show player count
+                print(f"Nombre de joueurs enregistrés: "
+                      f"{len(self.tournament.players)}")  # Show player count
 
             elif choice == '2':
                 if len(self.tournament.players) >= 2:
-                    break  # Start the tournament if there are at least 2 players
+                    break  # Start the tournament if at least 2 players
                 else:
-                    print("Au moins 2 joueurs sont requis pour démarrer le tournoi.")
+                    print("Au moins 2 joueurs sont requis "
+                          "pour démarrer le tournoi.")
             else:
                 print("Option non valide, veuillez réessayer.")
 
     def _add_new_player(self, players):
         """Internal logic to add a new player and save to JSON file."""
-        last_name, first_name, date_of_birth, national_id = PlayerMenuView.display_add_player_menu()
+        (last_name, first_name,
+         date_of_birth,
+         national_id) = PlayerMenuView.display_add_player_menu()
         new_player = {
             "last_name": last_name,
             "first_name": first_name,
@@ -70,18 +87,23 @@ class TournamentController:
         while True:
             # Display filtered list of players
             filtered_players = [p for p in players if
-                                filter_str.lower() in p["last_name"].lower() or filter_str.lower() in p[
-                                    "first_name"].lower()]
+                                filter_str.lower() in
+                                p["last_name"].lower()
+                                or filter_str.lower() in
+                                p["first_name"].lower()]
             if not filtered_players:
                 print("Aucun joueur ne correspond à ce filtre.")
                 return  # Return to main menu
 
             # Display filtered players
             for i, player in enumerate(filtered_players, start=1):
-                print(f"{i}. {player['first_name']} {player['last_name']} (ID: {player['national_id']})")
+                print(f"{i}. {player['first_name']}"
+                      f" {player['last_name']} "
+                      f"(ID: {player['national_id']})")
 
             # User input to filter or select a player
-            input_str = input("Entrez une lettre pour filtrer ou un numéro pour sélectionner un joueur : ")
+            input_str = input("Entrez une lettre pour filtrer"
+                              " ou un numéro pour sélectionner un joueur : ")
             if input_str.isdigit():  # If a number is entered
                 choice = int(input_str) - 1
                 if 0 <= choice < len(filtered_players):
@@ -93,12 +115,13 @@ class TournamentController:
                         selected_player["national_id"]
                     )
                     self.tournament.add_player(player)
-                    print(f"{player.first_name} {player.last_name} a été ajouté au tournoi.")
+                    print(f"{player.first_name} {player.last_name} "
+                          f"a été ajouté au tournoi.")
                     return
                 else:
                     print("Numéro invalide, veuillez réessayer.")
             else:
-                filter_str += input_str  # Add letter to filter to refine results
+                filter_str += input_str  # Add letter to refine results
 
     def _load_players(self):
         """Loads players from the consistent JSON file path."""
@@ -111,10 +134,9 @@ class TournamentController:
 
     def _save_players(self, players: List[Dict[str, str]]):
         """Saves players to the consistent JSON file path."""
-        PLAYERS_JSON_PATH.parent.mkdir(exist_ok=True)  # Ensure the 'data' directory exists
+        PLAYERS_JSON_PATH.parent.mkdir(exist_ok=True)
         with open(PLAYERS_JSON_PATH, 'w', encoding="utf-8") as f:
             json.dump(players, f, indent=4, ensure_ascii=False)
-
 
     def start_tournament(self):
         """Starts the tournament if the conditions are met."""

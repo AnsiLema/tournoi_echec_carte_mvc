@@ -10,7 +10,8 @@ class Match:
 
         Methods:
         __init__(player1, player2)
-            Initializes the match with two players and sets their initial scores to zero.
+            Initializes the match with two players
+            and sets their initial scores to zero.
     """
     MATCH_SCORE = [(1, 0), (0.5, 0.5), (0, 1)]
 
@@ -26,7 +27,9 @@ class Match:
         while True:
             result = input(
                 f"Entrez le résultat pour le match entre {self.match[0][0]} "
-                f"et {self.match[1][0]} (1 pour {self.match[0][0]}, N pour nul, 2 pour {self.match[1][0]}): ").strip()
+                f"et {self.match[1][0]} (1 pour {self.match[0][0]},"
+                f" N pour nul,"
+                f" 2 pour {self.match[1][0]}): ").strip()
             if result == "1":
                 self.match[0][0].score += self.MATCH_SCORE[0][0]
                 self.match[1][0].score += self.MATCH_SCORE[0][1]

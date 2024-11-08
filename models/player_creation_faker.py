@@ -1,7 +1,7 @@
 import json
 from faker import Faker
-from pathlib import Path
 from config import PLAYERS_JSON_PATH  # Import the path constant
+
 
 # Define the Player class
 class Player:
@@ -20,8 +20,10 @@ class Player:
             "national_id": self.national_id
         }
 
+
 # Initialize Faker
 fake = Faker('fr_FR')
+
 
 # Ensure the data folder exists
 PLAYERS_JSON_PATH.parent.mkdir(exist_ok=True)
@@ -37,7 +39,8 @@ else:
 for _ in range(30):
     last_name = fake.last_name()
     first_name = fake.first_name()
-    date_of_birth = fake.date_of_birth(minimum_age=18, maximum_age=60).strftime("%d/%m/%Y")
+    date_of_birth = fake.date_of_birth(minimum_age=18,
+                                       maximum_age=60).strftime("%d/%m/%Y")
     national_id = fake.unique.bothify(text='??#####')
     player = Player(last_name, first_name, date_of_birth, national_id)
     players.append(player.to_dict())
