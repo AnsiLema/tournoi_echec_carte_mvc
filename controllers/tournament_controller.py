@@ -21,27 +21,32 @@ class TournamentController:
         players = self._load_players()
 
         while True:
-            choice = PlayerMenuView.display_player_menu()
-            if choice == '1':
-                self._add_new_player(players)
-                # Show the updated player count after each new addition
-                print(f"Total players registered: {len(self.tournament.players)}")
-            elif choice == '2':
-                self._select_player(players)
-                # Show the updated player count after each selection
-                print(f"Total players registered: {len(self.tournament.players)}")
-            else:
-                print("Invalid option.")
+            # Prompt the user to add a new player or start the tournament
+            choice = input("Sélectionnez une option :\n1. Ajouter un joueur\n2. Commencer le tournoi\n> ")
 
-            # Confirm if the user wants to start the tournament
-            confirmation = PlayerMenuView.display_start_tournament_confirmation()
-            if confirmation == '':
-                if len(self.tournament.players) >= 2:
-                    break  # Start the tournament
+            if choice == '1':
+                # Prompt to either create a new player or select from the existing players
+                add_choice = input("Voulez-vous :\n1. Créer un nouveau joueur\n2. Sélectionner un joueur existant\n> ")
+
+                if add_choice == '1':
+                    # Create a new player
+                    self._add_new_player(players)
+                elif add_choice == '2':
+                    # Select an existing player
+                    self._select_player(players)
                 else:
-                    print("At least 2 players are required to start the tournament.")
-            elif confirmation.lower() == 'return':
-                continue  # Return to menu
+                    print("Option non valide, veuillez réessayer.")
+                    continue
+
+                print(f"Nombre de joueurs enregistrés: {len(self.tournament.players)}")  # Show player count
+
+            elif choice == '2':
+                if len(self.tournament.players) >= 2:
+                    break  # Start the tournament if there are at least 2 players
+                else:
+                    print("Au moins 2 joueurs sont requis pour démarrer le tournoi.")
+            else:
+                print("Option non valide, veuillez réessayer.")
 
     def _add_new_player(self, players):
         """Internal logic to add a new player and save to JSON file."""
@@ -59,24 +64,25 @@ class TournamentController:
         PlayerMenuView.display_add_player_success_menu()
 
     def _select_player(self, players):
-        """Allows selecting an existing player by filtering based on the beginning of the last name."""
+        """Allows selecting an existing player with dynamic filtering."""
         filter_str = ""
+        filtered_players = players
         while True:
-            # Display players filtered by the beginning of last_name
-            filtered_players = [p for p in players if p["last_name"].lower().startswith(filter_str.lower())]
-
+            # Display filtered list of players
+            filtered_players = [p for p in players if
+                                filter_str.lower() in p["last_name"].lower() or filter_str.lower() in p[
+                                    "first_name"].lower()]
             if not filtered_players:
-                print("No players match this filter.")
-                return  # Return to main menu if no matches
+                print("Aucun joueur ne correspond à ce filtre.")
+                return  # Return to main menu
 
-            # Display filtered players with their full information
-            print("\nMatching Players:")
+            # Display filtered players
             for i, player in enumerate(filtered_players, start=1):
                 print(f"{i}. {player['first_name']} {player['last_name']} (ID: {player['national_id']})")
 
-            # User input to continue filtering or to select a player
-            input_str = input("Enter a letter to filter by last name or a number to select a player: ")
-            if input_str.isdigit():  # Check if input is a number
+            # User input to filter or select a player
+            input_str = input("Entrez une lettre pour filtrer ou un numéro pour sélectionner un joueur : ")
+            if input_str.isdigit():  # If a number is entered
                 choice = int(input_str) - 1
                 if 0 <= choice < len(filtered_players):
                     selected_player = filtered_players[choice]
@@ -87,13 +93,12 @@ class TournamentController:
                         selected_player["national_id"]
                     )
                     self.tournament.add_player(player)
-                    print(f"{player.first_name} {player.last_name} has been added to the tournament.")
+                    print(f"{player.first_name} {player.last_name} a été ajouté au tournoi.")
                     return
                 else:
-                    print("Invalid number, please try again.")
+                    print("Numéro invalide, veuillez réessayer.")
             else:
-                # Add the input to filter_str to refine the search by the beginning of last_name
-                filter_str += input_str
+                filter_str += input_str  # Add letter to filter to refine results
 
     def _load_players(self):
         """Loads players from the consistent JSON file path."""
@@ -101,7 +106,7 @@ class TournamentController:
             with open(PLAYERS_JSON_PATH, 'r', encoding="utf-8") as f:
                 return json.load(f)
         except FileNotFoundError:
-            print("Player file not found.")
+            print("Fichier du joueur introuvable.")
             return []
 
     def _save_players(self, players: List[Dict[str, str]]):
@@ -114,7 +119,7 @@ class TournamentController:
     def start_tournament(self):
         """Starts the tournament if the conditions are met."""
         if not self.tournament or len(self.tournament.players) < 2:
-            print("At least 2 players are required to start the tournament.")
+            print("Au moins 2 joueurs sont requis pour démarrer le tournoi.")
             return
 
         for round_num in range(1, self.tournament.number_of_rounds + 1):
@@ -131,7 +136,7 @@ class TournamentController:
             TournamentView.display_rankings(self.tournament.players)
 
         TournamentView.display_final_results(self.tournament.players)
-        print("\n=== The tournament is over ===")
+        print("\n=== Le tournoi est terminé ===")
 
     def load_tournament(self, filename):
         """Loads a tournament from a JSON file."""

@@ -15,34 +15,52 @@ class Tournament:
         self.players = []
 
     def add_player(self, player):
+        """Adds a player to the tournament and initializes their score and opponent list."""
         player.score = 0
-        player.opponents = []
+        player.opponents = []  # Track opponents each player has faced
         self.players.append(player)
 
     def add_round(self):
+        """Adds a new round to the tournament."""
         round_number = len(self.rounds) + 1
         round_name = f"Round {round_number}"
         new_round = Round(name=round_name)
         self.rounds.append(new_round)
 
-
     def start_new_round(self):
-        """Démarre un nouveau round et génère les paires de matchs."""
+        """Starts a new round and generates unique pairs of matches."""
         round_name = f"Round {len(self.rounds) + 1}"
         new_round = Round(name=round_name)
         self.rounds.append(new_round)
 
-        # Appairage des joueurs
+        # Generate unique pairs for the matches
         pairs = self.generate_pairs()
         for player1, player2 in pairs:
             match = Match(player1, player2)
             new_round.add_match(match)
+            # Update each player's opponent list
+            player1.opponents.append(player2)
+            player2.opponents.append(player1)
 
     def generate_pairs(self):
-        """Génère les paires pour les matchs en fonction du score des joueurs."""
-        # Tri des joueurs par score, puis appairage par ordre
+        """Generates unique pairs for the matches based on player scores and previous opponents."""
+        # Sort players by score in descending order
         sorted_players = sorted(self.players, key=lambda p: p.score, reverse=True)
-        pairs = [(sorted_players[i], sorted_players[i + 1]) for i in range(0, len(sorted_players) - 1, 2)]
+        pairs = []
+        used_players = set()  # Track players already paired in this round
+
+        for i, player1 in enumerate(sorted_players):
+            if player1 in used_players:
+                continue  # Skip if this player is already paired
+
+            # Find the first available player who hasn't played against player1
+            for player2 in sorted_players[i + 1:]:
+                if player2 not in used_players and player2 not in player1.opponents:
+                    pairs.append((player1, player2))
+                    used_players.add(player1)
+                    used_players.add(player2)
+                    break  # Move on to the next player1
+
         return pairs
 
     def __repr__(self):
@@ -56,6 +74,7 @@ class Tournament:
                 f"{self.start_date}")
 
     def to_dict(self):
+        """Converts the tournament to a dictionary for JSON serialization."""
         return {
             "name": self.name,
             "location": self.location,
@@ -69,7 +88,14 @@ class Tournament:
 
     @classmethod
     def from_dict(cls, data):
-        tournament = cls(data["name"], data["location"], data["start_date"], data["end_date"], data["description"],
-                         data["number_of_rounds"])
-        # Charger les joueurs et rounds si nécessaire
+        """Creates a Tournament instance from a dictionary."""
+        tournament = cls(
+            data["name"],
+            data["location"],
+            data["start_date"],
+            data["end_date"],
+            data["description"],
+            data["number_of_rounds"]
+        )
+        # Load players and rounds if necessary
         return tournament
