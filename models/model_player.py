@@ -8,6 +8,7 @@ class Player:
         self.first_name = first_name
         self.date_of_birth = date_of_birth
         self.national_id = national_id
+        self.id = national_id
 
     def __repr__(self):
         return (f"Player(last_name={self.last_name}, "

@@ -1,13 +1,11 @@
+import random
 from models.model_match import Match
 from models.model_round import Round
-
+from models.model_player import Player  # Assuming Player has a from_dict method
 
 class Tournament:
-    def __init__(self, name, location,
-                 start_date,
-                 end_date,
-                 description,
-                 number_of_rounds):
+    def __init__(self, name, location, start_date, end_date, description, number_of_rounds):
+        self.id = str(random.randint(1000, 9999))  # Generate a unique 4-digit ID
         self.name = name
         self.location = location
         self.start_date = start_date
@@ -19,8 +17,7 @@ class Tournament:
         self.players = []
 
     def add_player(self, player):
-        """Adds a player to the tournament and initializes
-        their score and opponent list."""
+        """Adds a player to the tournament and initializes their score and opponent list."""
         player.score = 0
         player.opponents = []  # Track opponents each player has faced
         self.players.append(player)
@@ -48,22 +45,18 @@ class Tournament:
             player2.opponents.append(player1)
 
     def generate_pairs(self):
-        """Generates unique pairs for the matches based on player scores
-         and previous opponents."""
-        # Sort players by score in descending order
-        sorted_players = sorted(self.players, key=lambda p: p.score,
-                                reverse=True)
+        """Generates unique pairs for the matches based on player scores and previous opponents."""
+        sorted_players = sorted(self.players, key=lambda p: p.score, reverse=True)
         pairs = []
         used_players = set()  # Track players already paired in this round
 
         for i, player1 in enumerate(sorted_players):
             if player1 in used_players:
-                continue  # Skip if this player is already paired
+                continue
 
             # Find the first available player who hasn't played against player1
             for player2 in sorted_players[i + 1:]:
-                if (player2 not in used_players and player2
-                        not in player1.opponents):
+                if player2 not in used_players and player2 not in player1.opponents:
                     pairs.append((player1, player2))
                     used_players.add(player1)
                     used_players.add(player2)
@@ -71,19 +64,10 @@ class Tournament:
 
         return pairs
 
-    def __repr__(self):
-        return (f"Tournament(name={self.name},"
-                f" location={self.location}, "
-                f"start_date={self.start_date})")
-
-    def __str__(self):
-        return (f"{self.name} - "
-                f"{self.location} - "
-                f"{self.start_date}")
-
     def to_dict(self):
-        """Converts the tournament to a dictionary for JSON serialization."""
+        """Converts the tournament instance to a dictionary for JSON serialization."""
         return {
+            "id": self.id,
             "name": self.name,
             "location": self.location,
             "start_date": self.start_date,
@@ -96,7 +80,8 @@ class Tournament:
 
     @classmethod
     def from_dict(cls, data):
-        """Creates a Tournament instance from a dictionary."""
+        """Creates a Tournament instance from a dictionary and loads players and rounds if needed."""
+        # Initialize the tournament with basic details
         tournament = cls(
             data["name"],
             data["location"],
@@ -105,5 +90,22 @@ class Tournament:
             data["description"],
             data["number_of_rounds"]
         )
-        # Load players and rounds if necessary
+        tournament.id = data["id"]  # Restore tournament's ID
+
+        # Load players
+        tournament.players = [Player.from_dict(player_data) for player_data in data.get("players", [])]
+
+        # Load rounds and matches
+        tournament.rounds = []
+        for round_data in data.get("rounds", []):
+            round_instance = Round.from_dict(round_data)
+            tournament.rounds.append(round_instance)
+
         return tournament
+
+    def __repr__(self):
+        return (f"Tournament(id={self.id}, name={self.name}, location={self.location}, "
+                f"start_date={self.start_date})")
+
+    def __str__(self):
+        return (f"{self.name} - {self.location} - {self.start_date}")
