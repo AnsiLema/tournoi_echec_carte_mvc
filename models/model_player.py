@@ -18,12 +18,12 @@ class Player:
         return f"{self.last_name} {self.first_name}"
 
     def to_dict(self):
-        """Converts the Player instance to a dictionary for JSON storage."""
+        """Convert Player instance to dictionary for JSON serialization."""
         return {
             "last_name": self.last_name,
             "first_name": self.first_name,
             "date_of_birth": self.date_of_birth,
-            "national_id": self.national_id
+            "national_id": self.national_id,
         }
 
     @classmethod

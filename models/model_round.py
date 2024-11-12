@@ -17,21 +17,15 @@ class Round:
         self.end_date = datetime.datetime.now()
 
     def to_dict(self):
-        """Converts the Round instance to a dictionary for JSON serialization."""
         return {
             "name": self.name,
-            "start_date": self.start_date.isoformat(),
-            "end_date": self.end_date.isoformat() if self.end_date else None,
             "matches": [match.to_dict() for match in self.matches]
         }
 
     @classmethod
-    def from_dict(cls, data):
-        """Creates a Round instance from a dictionary."""
-        round_instance = cls(data["name"])
-        round_instance.start_date = datetime.datetime.fromisoformat(data["start_date"])
-        round_instance.end_date = datetime.datetime.fromisoformat(data["end_date"]) if data["end_date"] else None
-        round_instance.matches = [Match.from_dict(m) for m in data["matches"]]
+    def from_dict(cls, data, tournament):
+        round_instance = cls(name=data["name"])
+        round_instance.matches = [Match.from_dict(m_data, tournament) for m_data in data["matches"]]
         return round_instance
 
     def __repr__(self):

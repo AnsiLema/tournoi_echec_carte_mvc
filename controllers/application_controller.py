@@ -41,15 +41,18 @@ class ApplicationController:
 
         # Prompt the user to select a tournament by its ID
         selected_id = input("Veuillez entrer l'ID du tournoi à charger : ").strip()
-        selected_tournament = next((t for t in tournaments if t['id'] == selected_id), None)
 
-        if selected_tournament:
-            try:
-                self.tournament_controller.load_tournament_by_id(selected_id)
-                print("Tournoi chargé avec succès.")
-                self.tournament_controller.add_players()
-                self.tournament_controller.start_tournament()
-            except FileNotFoundError:
-                print("Erreur : tournoi introuvable.")
+        if self.tournament_controller.load_tournament_by_id(selected_id):
+            print("Tournoi chargé avec succès.")
+
+            # Check if the loaded tournament can be resumed
+            if self.tournament_controller.can_resume_tournament():
+                resume_choice = input("Souhaitez-vous reprendre le tournoi ? (o/n) : ").strip().lower()
+                if resume_choice == "o":
+                    self.tournament_controller.start_tournament()
+                else:
+                    print("Retour au menu principal.")
+            else:
+                print("Ce tournoi est déjà terminé.")
         else:
-            print("ID du tournoi invalide, veuillez réessayer.")
+            print("ID du tournoi invalide ou tournoi introuvable.")

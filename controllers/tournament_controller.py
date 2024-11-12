@@ -1,13 +1,11 @@
 import json
 from typing import List, Dict
-from config import PLAYERS_JSON_PATH, TOURNAMENTS_JSON_PATH, ROUNDS_DIR
+from config import PLAYERS_JSON_PATH, TOURNAMENTS_DIR
 from models.model_player import Player
 from models.model_tournament import Tournament
-from models.model_round import Round
 from views.tournament_view import TournamentView
 from views.player_view import PlayerMenuView
 from pathlib import Path
-
 
 class TournamentController:
     def __init__(self):
@@ -33,25 +31,34 @@ class TournamentController:
         self.tournament.id = self._get_next_id()  # Assign a sequential 4-digit ID to the tournament
 
         TournamentView.display_tournament_info(self.tournament)
-        self._save_tournaments([self.tournament])  # Save the new tournament with ID
+        self._save_tournament()  # Save the new tournament with ID
 
     def get_all_tournaments(self):
-        """Retrieve all available tournaments with their IDs and names."""
-        try:
-            with open(TOURNAMENTS_JSON_PATH, "r", encoding="utf-8") as file:
-                return json.load(file)
-        except FileNotFoundError:
-            return []
+        """Retrieve all available tournaments with their IDs and names from the directory."""
+        tournaments = []
+        for file_path in TOURNAMENTS_DIR.glob("tournament_*.json"):
+            with open(file_path, "r", encoding="utf-8") as file:
+                tournament_data = json.load(file)
+                tournaments.append(tournament_data)
+        return tournaments
 
     def load_tournament_by_id(self, tournament_id):
-        """Load a specific tournament by its unique 4-digit ID."""
-        tournaments = self.get_all_tournaments()
-        selected_tournament = next((t for t in tournaments if t['id'] == tournament_id), None)
+        """Load a tournament by its unique ID from a single JSON file."""
+        tournament_file = Path(TOURNAMENTS_DIR) / f"tournament_{tournament_id}.json"
+        try:
+            with open(tournament_file, "r", encoding="utf-8") as file:
+                tournament_data = json.load(file)
+                self.tournament = Tournament.from_dict(tournament_data)  # Assuming from_dict deserializes full details
+                return True
+        except FileNotFoundError:
+            print("Tournoi introuvable.")
+            return False
 
-        if selected_tournament:
-            self.tournament = Tournament.from_dict(selected_tournament)
-        else:
-            raise FileNotFoundError("Tournoi avec cet ID introuvable.")
+    def can_resume_tournament(self):
+        """Check if there are any remaining rounds to play."""
+        if self.tournament and len(self.tournament.rounds) < self.tournament.number_of_rounds:
+            return True
+        return False
 
     def add_players(self):
         """Handles adding players until the user decides to start the tournament."""
@@ -127,7 +134,10 @@ class TournamentController:
             print("Au moins 2 joueurs sont requis pour démarrer le tournoi.")
             return
 
-        for round_num in range(1, self.tournament.number_of_rounds + 1):
+        # Start from the next round if there are unfinished rounds
+        starting_round = len(self.tournament.rounds) + 1
+
+        for round_num in range(starting_round, self.tournament.number_of_rounds + 1):
             self.tournament.start_new_round()
             current_round = self.tournament.rounds[-1]
             TournamentView.display_round_info(round_num, current_round.matches)
@@ -137,36 +147,32 @@ class TournamentController:
                 TournamentView.display_match_result(match)
 
             current_round.finish_round()
-            current_round_dict = current_round.to_dict()
-            self.save_round(current_round_dict, round_num)
+            # Save the entire tournament after each round
+            self._save_tournament()
             TournamentView.display_rankings(self.tournament.players)
 
         TournamentView.display_final_results(self.tournament.players)
         print("\n=== Le tournoi est terminé ===")
 
     def _load_tournaments(self):
+        """Load all tournaments by reading each JSON file in the tournaments directory."""
+        tournaments = []
+        for file_path in Path(TOURNAMENTS_DIR).glob("tournament_*.json"):
+            with open(file_path, "r", encoding="utf-8") as file:
+                tournament_data = json.load(file)
+                tournaments.append(tournament_data)
+        return tournaments
+
+    def _save_tournament(self):
+        """Save the entire tournament, including players and rounds, to a single JSON file."""
+        tournament_data = self.tournament.to_dict()  # Convert tournament to a dictionary
+        tournament_file = Path(TOURNAMENTS_DIR) / f"tournament_{self.tournament.id}.json"
+
+        tournament_file.parent.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
+
         try:
-            with open(TOURNAMENTS_JSON_PATH, "r", encoding="utf-8") as file:
-                return json.load(file)
-        except FileNotFoundError:
-            return []
+            with open(tournament_file, "w", encoding="utf-8") as file:
+                json.dump(tournament_data, file, indent=4, ensure_ascii=False)
+        except Exception as e:
+            print(f"Error saving tournament data: {e}")
 
-    def _save_tournaments(self, tournaments: List[Tournament]):
-        TOURNAMENTS_JSON_PATH.parent.mkdir(exist_ok=True)
-        with open(TOURNAMENTS_JSON_PATH, "w", encoding="utf-8") as file:
-            json.dump([tournament.to_dict() for tournament in tournaments], file, indent=4, ensure_ascii=False)
-
-    def save_round(self, round_data, round_number):
-        round_file = ROUNDS_DIR / f"round_{round_number}.json"
-        round_file.parent.mkdir(exist_ok=True)
-        with open(round_file, "w", encoding="utf-8") as f:
-            json.dump(round_data, f, indent=4, ensure_ascii=False)
-
-    def load_round(self, round_number):
-        round_file = ROUNDS_DIR / f"round_{round_number}.json"
-        try:
-            with open(round_file, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except FileNotFoundError:
-            print(f"Le fichier pour le Round {round_number} est introuvable.")
-            return None

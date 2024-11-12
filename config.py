@@ -1,21 +1,16 @@
 import json
 from pathlib import Path
 
-from pathlib import Path
-
 # Define the main data directory path
 DATA_DIR = Path("data")
 
 # Paths for specific JSON files and directories
 PLAYERS_JSON_PATH = DATA_DIR / "players.json"
-TOURNAMENTS_JSON_PATH = DATA_DIR / "tournaments.json"
-ROUNDS_DIR = DATA_DIR / "rounds"
+TOURNAMENTS_DIR = DATA_DIR / "tournaments"
+
 
 # Ensure the directories exist
 DATA_DIR.mkdir(exist_ok=True)
-ROUNDS_DIR.mkdir(exist_ok=True)
-
-
 
 # Loading data functions
 def load_json_data(file_path):
@@ -46,9 +41,9 @@ def save_players(players):
 
 # load tournament data
 def load_tournament():
-    return load_json_data(TOURNAMENTS_JSON_PATH)
+    return load_json_data(TOURNAMENTS_DIR)
 
 
 # save tournament data
 def save_tournaments(tournament):
-    save_json_data(tournament, TOURNAMENTS_JSON_PATH)
+    save_json_data(tournament, TOURNAMENTS_DIR)
