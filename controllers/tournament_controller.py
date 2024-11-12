@@ -1,58 +1,48 @@
 import json
 from typing import List, Dict
-from config import PLAYERS_JSON_PATH, TOURNAMENTS_DIR
+from config import load_players, save_players, load_all_tournaments, save_tournament
 from models.model_player import Player
 from models.model_tournament import Tournament
 from views.tournament_view import TournamentView
 from views.player_view import PlayerMenuView
-from pathlib import Path
+
 
 class TournamentController:
     def __init__(self):
         self.tournament = None
-        self.players = self._load_players()
+        self.players = load_players()  # Load players from players.json
 
     def _get_next_id(self):
         """Retrieve the next available 4-digit tournament ID."""
-        tournaments = self._load_tournaments()
-
-        # Find the maximum existing ID
+        tournaments = load_all_tournaments()
         if tournaments:
             max_id = max(int(t["id"]) for t in tournaments if "id" in t)
             next_id = max_id + 1
         else:
             next_id = 1  # Start with ID 0001 if no tournaments exist
-
         return f"{next_id:04d}"
 
     def create_tournament(self, name, location, start_date, end_date, description, number_of_rounds):
-        """Initializes a new tournament with a unique 4-digit ID."""
+        """Initialize a new tournament with a unique 4-digit ID."""
         self.tournament = Tournament(name, location, start_date, end_date, description, number_of_rounds)
         self.tournament.id = self._get_next_id()  # Assign a sequential 4-digit ID to the tournament
 
         TournamentView.display_tournament_info(self.tournament)
-        self._save_tournament()  # Save the new tournament with ID
+        self._save_current_tournament()  # Save the new tournament with ID
 
     def get_all_tournaments(self):
-        """Retrieve all available tournaments with their IDs and names from the directory."""
-        tournaments = []
-        for file_path in TOURNAMENTS_DIR.glob("tournament_*.json"):
-            with open(file_path, "r", encoding="utf-8") as file:
-                tournament_data = json.load(file)
-                tournaments.append(tournament_data)
-        return tournaments
+        """Retrieve all tournaments from tournaments.json."""
+        return load_all_tournaments()
 
     def load_tournament_by_id(self, tournament_id):
-        """Load a tournament by its unique ID from a single JSON file."""
-        tournament_file = Path(TOURNAMENTS_DIR) / f"tournament_{tournament_id}.json"
-        try:
-            with open(tournament_file, "r", encoding="utf-8") as file:
-                tournament_data = json.load(file)
-                self.tournament = Tournament.from_dict(tournament_data)  # Assuming from_dict deserializes full details
-                return True
-        except FileNotFoundError:
-            print("Tournoi introuvable.")
-            return False
+        """Load a tournament by its unique ID from tournaments.json."""
+        tournaments = load_all_tournaments()
+        tournament_data = next((t for t in tournaments if t["id"] == tournament_id), None)
+        if tournament_data:
+            self.tournament = Tournament.from_dict(tournament_data)  # Assuming from_dict deserializes full details
+            return True
+        print("Tournoi introuvable.")
+        return False
 
     def can_resume_tournament(self):
         """Check if there are any remaining rounds to play."""
@@ -73,6 +63,7 @@ class TournamentController:
                 else:
                     print("Option non valide, veuillez réessayer.")
                 print(f"Nombre de joueurs enregistrés: {len(self.tournament.players)}")
+                self._save_current_tournament()  # Save tournament state after each player addition
             elif choice == '2' and len(self.tournament.players) >= 2:
                 break
             else:
@@ -83,7 +74,7 @@ class TournamentController:
         new_player = {"last_name": last_name, "first_name": first_name, "date_of_birth": date_of_birth,
                       "national_id": national_id}
         players.append(new_player)
-        self._save_players(players)
+        save_players(players)  # Save all players to players.json
         player = Player(last_name, first_name, date_of_birth, national_id)
         self.tournament.add_player(player)
         PlayerMenuView.display_add_player_success_menu()
@@ -92,8 +83,7 @@ class TournamentController:
         filter_str = ""
         while True:
             filtered_players = [p for p in players if
-                                filter_str.lower() in p["last_name"].lower() or filter_str.lower() in p[
-                                    "first_name"].lower()]
+                                filter_str.lower() in p["last_name"].lower() or filter_str.lower() in p["first_name"].lower()]
             if not filtered_players:
                 print("Aucun joueur ne correspond à ce filtre.")
                 return
@@ -110,33 +100,20 @@ class TournamentController:
                                     selected_player["date_of_birth"], selected_player["national_id"])
                     self.tournament.add_player(player)
                     print(f"{player.first_name} {player.last_name} a été ajouté au tournoi.")
+                    self._save_current_tournament()  # Save tournament after adding a player
                     return
                 else:
                     print("Numéro invalide, veuillez réessayer.")
             else:
                 filter_str += input_str
 
-    def _load_players(self):
-        try:
-            with open(PLAYERS_JSON_PATH, 'r', encoding="utf-8") as f:
-                return json.load(f)
-        except FileNotFoundError:
-            print("Fichier du joueur introuvable.")
-            return []
-
-    def _save_players(self, players: List[Dict[str, str]]):
-        PLAYERS_JSON_PATH.parent.mkdir(exist_ok=True)
-        with open(PLAYERS_JSON_PATH, 'w', encoding="utf-8") as f:
-            json.dump(players, f, indent=4, ensure_ascii=False)
-
     def start_tournament(self):
+        """Begins the tournament, saving after each round completes."""
         if not self.tournament or len(self.tournament.players) < 2:
             print("Au moins 2 joueurs sont requis pour démarrer le tournoi.")
             return
 
-        # Start from the next round if there are unfinished rounds
         starting_round = len(self.tournament.rounds) + 1
-
         for round_num in range(starting_round, self.tournament.number_of_rounds + 1):
             self.tournament.start_new_round()
             current_round = self.tournament.rounds[-1]
@@ -147,32 +124,15 @@ class TournamentController:
                 TournamentView.display_match_result(match)
 
             current_round.finish_round()
-            # Save the entire tournament after each round
-            self._save_tournament()
+            # Save tournament state after each round
+            self._save_current_tournament()
             TournamentView.display_rankings(self.tournament.players)
 
         TournamentView.display_final_results(self.tournament.players)
         print("\n=== Le tournoi est terminé ===")
 
-    def _load_tournaments(self):
-        """Load all tournaments by reading each JSON file in the tournaments directory."""
-        tournaments = []
-        for file_path in Path(TOURNAMENTS_DIR).glob("tournament_*.json"):
-            with open(file_path, "r", encoding="utf-8") as file:
-                tournament_data = json.load(file)
-                tournaments.append(tournament_data)
-        return tournaments
-
-    def _save_tournament(self):
-        """Save the entire tournament, including players and rounds, to a single JSON file."""
-        tournament_data = self.tournament.to_dict()  # Convert tournament to a dictionary
-        tournament_file = Path(TOURNAMENTS_DIR) / f"tournament_{self.tournament.id}.json"
-
-        tournament_file.parent.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
-
-        try:
-            with open(tournament_file, "w", encoding="utf-8") as file:
-                json.dump(tournament_data, file, indent=4, ensure_ascii=False)
-        except Exception as e:
-            print(f"Error saving tournament data: {e}")
-
+    def _save_current_tournament(self):
+        """Save or update the current tournament in tournaments.json."""
+        if self.tournament:
+            tournament_data = self.tournament.to_dict()
+            save_tournament(tournament_data)  # Save using config function
