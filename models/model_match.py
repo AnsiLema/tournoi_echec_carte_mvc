@@ -49,24 +49,36 @@ class Match:
         self.score2 = self.match[1][0].score
 
     def to_dict(self):
+        """Converts the Match instance to a dictionary for JSON serialization."""
         return {
-            "player1_id": self.match[0][0].national_id,
-            "player2_id": self.match[1][0].national_id,
-            "score1": self.score1,
-            "score2": self.score2
+            "player1_id": self.match[0][0].id,  # Assuming Player has an `id` attribute
+            "player2_id": self.match[1][0].id,
+            "score1": self.match[0][0].score,
+            "score2": self.match[1][0].score
         }
 
     @classmethod
     def from_dict(cls, data, tournament):
-        player1 = next((p for p in tournament.players if p.national_id == data["player1_id"]), None)
-        player2 = next((p for p in tournament.players if p.national_id == data["player2_id"]), None)
+        """
+        Creates a Match instance from a dictionary.
+
+        Args:
+        - data (dict): Dictionary with match data.
+        - player_lookup (dict): Dictionary or function to find player objects by ID.
+        """
+        player1_id = data["player1_id"]
+        player2_id = data["player2_id"]
+
+        # Find players by ID in the tournament
+        player1 = next((p for p in tournament.players if p.national_id == player1_id), None)
+        player2 = next((p for p in tournament.players if p.national_id == player2_id), None)
+
         if player1 and player2:
-            match_instance = cls(player1, player2)
-            match_instance.score1 = data["score1"]
-            match_instance.score2 = data["score2"]
-            return match_instance
-        print(f"Error: Could not find players with IDs {data['player1_id']} and {data['player2_id']}")
-        return None
+            return cls(player1, player2)
+        else:
+            # Handle case where players are not found (e.g., raise an error or return None)
+            print(f"Error: Could not find players with IDs {player1_id} and {player2_id} in the tournament.")
+            return None
 
     def __str__(self):
         return f"Match entre {self.match[0][0]} et {self.match[1][0]}"
