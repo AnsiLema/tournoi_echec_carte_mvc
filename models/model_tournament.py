@@ -15,6 +15,11 @@ class Tournament:
         self.current_round = []
         self.rounds = []
         self.players = []
+        self.completed = False
+
+    def mark_as_completed(self):
+        """Mark the tournament as completed."""
+        self.completed = True
 
     def add_player(self, player):
         """Adds a player to the tournament and initializes their score and opponent list."""
@@ -65,6 +70,7 @@ class Tournament:
             "end_date": self.end_date,
             "description": self.description,
             "number_of_rounds": self.number_of_rounds,
+            "completed": self.completed,
             "players": [
                 {
                     **player.to_dict(),  # Convert each Player instance to a dictionary
@@ -83,7 +89,7 @@ class Tournament:
             data["end_date"], data["description"], data["number_of_rounds"]
         )
         tournament.id = data["id"]
-
+        tournament.completed = data["completed"]
         # Load players with tournament-specific attributes
         tournament.players = []
         for p_data in data["players"]:
