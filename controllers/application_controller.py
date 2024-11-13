@@ -39,8 +39,25 @@ class ApplicationController:
         for idx, tournament in enumerate(tournaments, start=1):
             print(f"{idx}. ID: {tournament['id']}, Nom: {tournament['name']}")
 
-        # Prompt the user to select a tournament by its ID
-        selected_id = input("Veuillez entrer l'ID du tournoi à charger : ").strip()
+        # Option pour rechercher par nom de tournoi
+        search_choice = input("Souhaitez-vous rechercher un tournoi par nom ? (o/n) : ").strip().lower()
+        if search_choice == 'o':
+            search_name = input("Entrez le nom ou une partie du nom du tournoi : ").strip().lower()
+            filtered_tournaments = [
+                t for t in tournaments if search_name in t['name'].lower()
+            ]
+
+            if not filtered_tournaments:
+                print("Aucun tournoi ne correspond à ce nom.")
+                return
+
+            print("=== Tournois correspondants ===")
+            for idx, tournament in enumerate(filtered_tournaments, start=1):
+                print(f"{idx}. ID: {tournament['id']}, Nom: {tournament['name']}")
+
+            selected_id = input("Veuillez entrer l'ID du tournoi à charger : ").strip()
+        else:
+            selected_id = input("Veuillez entrer l'ID du tournoi à charger : ").strip()
 
         if self.tournament_controller.load_tournament_by_id(selected_id):
             print("Tournoi chargé avec succès.")
@@ -56,3 +73,4 @@ class ApplicationController:
                 print("Ce tournoi est déjà terminé.")
         else:
             print("ID du tournoi invalide ou tournoi introuvable.")
+

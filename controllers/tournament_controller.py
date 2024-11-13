@@ -1,5 +1,3 @@
-import json
-from typing import List, Dict
 from config import load_players, save_players, load_all_tournaments, save_tournament
 from models.model_player import Player
 from models.model_tournament import Tournament
@@ -24,6 +22,7 @@ class TournamentController:
 
     def create_tournament(self, name, location, start_date, end_date, description, number_of_rounds):
         """Initialize a new tournament with a unique 4-digit ID."""
+        # Create the tournament, allowing end_date to be None
         self.tournament = Tournament(name, location, start_date, end_date, description, number_of_rounds)
         self.tournament.id = self._get_next_id()
         TournamentView.display_tournament_info(self.tournament)
@@ -137,10 +136,12 @@ class TournamentController:
             self._save_current_tournament()
             TournamentView.display_rankings(self.tournament.players)
 
-        self.tournament.mark_as_completed()  # Mark tournament as completed
-        self._save_current_tournament()  # Final save with completion status
-        TournamentView.display_final_results(self.tournament.players)
-        print("\n=== Le tournoi est terminé ===")
+        # Only mark the tournament as completed when all rounds are finished
+        if len(self.tournament.rounds) == self.tournament.number_of_rounds:
+            self.tournament.mark_as_completed()
+            self._save_current_tournament()  # Final save with completion status and end date
+            TournamentView.display_final_results(self.tournament.players)
+            print("\n=== Le tournoi est terminé ===")
 
     def _save_current_tournament(self):
         """Save or update the current tournament in tournaments.json."""

@@ -18,7 +18,7 @@ class TournamentView:
         for match in matches:
             print(f"{match.match[0][0]} vs {match.match[1][0]}")  # Accès correct aux joueurs
 
-    @staticmethod
+
     @staticmethod
     def display_match_result(match):
         """Shows the result of the specific match only, not cumulative scores."""

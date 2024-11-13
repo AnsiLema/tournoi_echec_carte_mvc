@@ -1,10 +1,11 @@
+from datetime import datetime
 from models.model_match import Match
 from models.model_round import Round
 from models.model_player import Player
 
 
 class Tournament:
-    def __init__(self, name, location, start_date, end_date, description, number_of_rounds):
+    def __init__(self, name, location, start_date, end_date=None, description="", number_of_rounds=1):
         self.id = None
         self.name = name
         self.location = location
@@ -20,6 +21,7 @@ class Tournament:
     def mark_as_completed(self):
         """Mark the tournament as completed."""
         self.completed = True
+        self.end_date = datetime.now().strftime("%d/%m/%Y")
 
     def add_player(self, player):
         """Adds a player to the tournament and initializes their score and opponent list."""
