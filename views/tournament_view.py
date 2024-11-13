@@ -19,11 +19,12 @@ class TournamentView:
             print(f"{match.match[0][0]} vs {match.match[1][0]}")  # Accès correct aux joueurs
 
     @staticmethod
+    @staticmethod
     def display_match_result(match):
-        """Affiche le résultat d'un match spécifique."""
+        """Shows the result of the specific match only, not cumulative scores."""
         print(f"Match : {match.match[0][0]} vs {match.match[1][0]}")
-        print(f"Score du match : {match.match[0][0]} - {match.score1} | {match.match[1][0]}"
-              f" - {match.score2}")
+        print(
+            f"Score du match : {match.match[0][0]} - {match.match_score1} | {match.match[1][0]} - {match.match_score2}")
 
     @staticmethod
     def display_rankings(players):
