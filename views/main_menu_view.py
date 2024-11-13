@@ -13,8 +13,8 @@ class MainMenuView:
         print("\n=== Démarrage d'un nouveau tournoi ===")
         name = input("Nom du tournoi : ")
         location = input("Lieu du tournoi : ")
-        start_date = input("Date de début (YYYY-MM-DD) : ")
-        end_date = input("Date de fin (YYYY-MM-DD) : ")
+        start_date = input("Date de début (JJ-MM-AAAA) : ")
+        end_date = input("Date de fin (JJ-MM-AAAA) : ")
         description = input("Description du tournoi : ")
         number_of_rounds = int(input("Nombre de rounds : "))
         return name, location, start_date, end_date, description, number_of_rounds
