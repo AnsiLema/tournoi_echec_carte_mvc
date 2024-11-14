@@ -28,20 +28,22 @@ class TournamentController:
         TournamentView.display_tournament_info(self.tournament)
         self._save_current_tournament()
 
-    def get_all_tournaments(self):
+    def get_unfinished_tournaments(self):
         """Retrieve only incomplete tournaments from tournaments.json."""
         tournaments = load_all_tournaments()
         return [t for t in tournaments if not t.get("completed", False)]
 
     def load_tournament_by_id(self, tournament_id):
-        """Load a tournament by its unique ID from tournaments.json, skipping completed tournaments."""
+        """Load a tournament by its ID and return the tournament object, not a bool."""
         tournaments = load_all_tournaments()
-        tournament_data = next((t for t in tournaments if t["id"] == tournament_id and not t.get("completed", False)), None)
+        tournament_data = next((t for t in tournaments if t['id'] == tournament_id), None)
+
         if tournament_data:
             self.tournament = Tournament.from_dict(tournament_data)
-            return True
-        print("Tournoi introuvable ou terminé.")
-        return False
+            return self.tournament  # Return the Tournament object
+        else:
+            print("Tournoi introuvable ou terminé.")
+            return None  # Return None if not found
 
     def can_resume_tournament(self):
         """Check if there are any remaining rounds to play."""
@@ -148,3 +150,42 @@ class TournamentController:
         if self.tournament:
             tournament_data = self.tournament.to_dict()
             save_tournament(tournament_data)
+
+    def get_all_players_sorted(self):
+        """Return a list of all players sorted alphabetically by last name."""
+        players = load_players()
+        return sorted(players, key=lambda p: p['last_name'])
+
+    def get_all_tournaments(self):
+        """Return a list of all tournaments."""
+        return load_all_tournaments()
+
+    def search_tournaments_by_name(self, name_start):
+        """Search for tournaments whose names start with the given letters."""
+        tournaments = load_all_tournaments()
+        return [t for t in tournaments if t['name'].lower().startswith(name_start.lower())]
+
+    def get_tournament_details(self, tournament_id):
+        """Return the name and dates of a specific tournament."""
+        tournaments = load_all_tournaments()
+        tournament = next((t for t in tournaments if t['id'] == tournament_id), None)
+        if tournament:
+            return tournament['name'], tournament['start_date'], tournament['end_date']
+        return None
+
+    def get_tournament_players_sorted(self, tournament_id):
+        """Return a list of players in a specific tournament, sorted alphabetically."""
+        tournaments = load_all_tournaments()
+        tournament = next((t for t in tournaments if t['id'] == tournament_id), None)
+        if tournament:
+            players = tournament.get('players', [])
+            return sorted(players, key=lambda p: p['last_name'])
+        return []
+
+    def get_tournament_rounds_and_matches(self, tournament_id):
+        """Return a list of rounds and their matches for a specific tournament."""
+        tournaments = load_all_tournaments()
+        tournament = next((t for t in tournaments if t['id'] == tournament_id), None)
+        if tournament:
+            return tournament.get('rounds', [])
+        return []

@@ -1,3 +1,5 @@
+from models.model_match import Match
+
 class TournamentView:
     @staticmethod
     def display_tournament_info(tournament):
@@ -41,3 +43,50 @@ class TournamentView:
         sorted_players = sorted(players, key=lambda p: p.score, reverse=True)
         for rank, player in enumerate(sorted_players, start=1):
             print(f"{rank}. {player} - Score: {player.score}")
+
+    @staticmethod
+    def display_all_players(players):
+        print("\n=== Liste de tous les joueurs ===")
+        for player in players:
+            print(f"{player['last_name']} {player['first_name']} (ID: {player['national_id']})")
+        print("\n")
+
+    @staticmethod
+    def display_all_tournaments(tournaments):
+        print("\n=== Liste de tous les tournois ===")
+        for tournament in tournaments:
+            print(f"Nom: {tournament['name']}, Lieu: {tournament['location']}, Date de début: {tournament['start_date']}")
+        print("\n")
+
+    @staticmethod
+    def display_tournament_details(name, start_date, end_date):
+        print("\n=== Détails du Tournoi ===")
+        print(f"Nom: {name}")
+        print(f"Date de début: {start_date}")
+        print(f"Date de fin: {end_date if end_date else 'Non définie'}")
+        print("\n")
+
+    @staticmethod
+    def display_tournament_players(players):
+        print("\n=== Joueurs du Tournoi ===")
+        for player in players:
+            print(f"{player['last_name']} {player['first_name']} (ID: {player['national_id']})")
+        print("\n")
+
+    @staticmethod
+    def display_tournament_rounds_and_matches(rounds, tournament):
+        print("\n=== Tours et Matchs du Tournoi ===")
+        for round_info in rounds:
+            print(f"Tour: {round_info['name']}")
+            for match_data in round_info.get('matches', []):
+                # Use the actual tournament object with players
+                match = Match.from_dict(match_data, tournament)
+                if match:
+                    player1_name = match.match[0][0].__str__()  # Access player1 name
+                    player2_name = match.match[1][0].__str__()  # Access player2 name
+                    score1 = match.match_score1
+                    score2 = match.match_score2
+                    print(f"  Match: {player1_name} vs {player2_name} - Résultat: {score1} - {score2}")
+                else:
+                    print("  Erreur: Match invalide ou joueurs introuvables.")
+        print("\n")

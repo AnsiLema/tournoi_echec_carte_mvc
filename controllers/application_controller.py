@@ -1,6 +1,6 @@
 from controllers.tournament_controller import TournamentController
 from views.main_menu_view import MainMenuView
-
+from views.tournament_view import TournamentView
 
 class ApplicationController:
     def __init__(self):
@@ -15,7 +15,67 @@ class ApplicationController:
             elif choice == "2":
                 self.load_existing_tournament()
             elif choice == "3":
+                self.show_reports()  # New option for reports
+            elif choice == "4":
                 MainMenuView.display_quit_message()
+                break
+            else:
+                print("Choix non valide, veuillez réessayer.")
+
+    def show_reports(self):
+        """Display the reports menu and handle the selected report."""
+        while True:
+            report_choice = MainMenuView.display_reports_menu()
+            if report_choice in ["3", "4", "5"]:  # Options that require a tournament
+                name_start = input("Entrez les 3 premières lettres du nom du tournoi : ").strip().lower()
+                filtered_tournaments = self.tournament_controller.search_tournaments_by_name(name_start)
+
+                if not filtered_tournaments:
+                    print("Aucun tournoi ne correspond à ces lettres.")
+                    continue
+
+                print("\n=== Tournois correspondants ===")
+                for idx, tournament in enumerate(filtered_tournaments, start=1):
+                    print(f"{idx}. Nom: {tournament['name']}")
+
+                try:
+                    selected_index = int(input("Veuillez entrer le numéro du tournoi choisi : ").strip()) - 1
+                    if 0 <= selected_index < len(filtered_tournaments):
+                        selected_tournament = filtered_tournaments[selected_index]
+                    else:
+                        print("Numéro de tournoi invalide.")
+                        continue
+                except ValueError:
+                    print("Entrée invalide. Veuillez entrer un numéro.")
+                    continue
+
+                tournament_id = selected_tournament['id']
+                tournament = self.tournament_controller.load_tournament_by_id(tournament_id)
+
+                if not tournament:
+                    print("Erreur lors du chargement du tournoi.")
+                    continue
+
+                if report_choice == "3":
+                    details = self.tournament_controller.get_tournament_details(tournament_id)
+                    if details:
+                        TournamentView.display_tournament_details(*details)
+                    else:
+                        print("Tournoi non trouvé.")
+                elif report_choice == "4":
+                    players = self.tournament_controller.get_tournament_players_sorted(tournament_id)
+                    TournamentView.display_tournament_players(players)
+                elif report_choice == "5":
+                    rounds = self.tournament_controller.get_tournament_rounds_and_matches(tournament_id)
+                    TournamentView.display_tournament_rounds_and_matches(rounds,
+                                                                         tournament)  # Pass the Tournament object
+            elif report_choice == "1":
+                players = self.tournament_controller.get_all_players_sorted()
+                TournamentView.display_all_players(players)
+            elif report_choice == "2":
+                tournaments = self.tournament_controller.get_all_tournaments()
+                TournamentView.display_all_tournaments(tournaments)
+            elif report_choice == "6":
                 break
             else:
                 print("Choix non valide, veuillez réessayer.")
@@ -29,7 +89,7 @@ class ApplicationController:
 
     def load_existing_tournament(self):
         """Loads an existing tournament by displaying available tournaments for selection."""
-        tournaments = self.tournament_controller.get_all_tournaments()
+        tournaments = self.tournament_controller.get_unfinished_tournaments()
 
         if not tournaments:
             print("Aucun tournoi disponible pour chargement.")
