@@ -1,5 +1,6 @@
 import datetime
-from models.model_match import Match  # Import Match if you have a Match class with to_dict/from_dict methods
+from models.model_match import Match
+
 
 class Round:
     def __init__(self, name):
@@ -25,9 +26,11 @@ class Round:
     @classmethod
     def from_dict(cls, data, tournament):
         round_instance = cls(name=data["name"])
-        round_instance.matches = [Match.from_dict(m_data, tournament) for m_data in data["matches"]]
+        round_instance.matches = [Match.from_dict(m_data, tournament)
+                                  for m_data in data["matches"]]
         return round_instance
 
     def __repr__(self):
-        return (f"{self.name} - Début: {self.start_date}, Fin: {self.end_date} "
+        return (f"{self.name} - Début: {self.start_date},"
+                f" Fin: {self.end_date} "
                 f"- Matches: {len(self.matches)}")

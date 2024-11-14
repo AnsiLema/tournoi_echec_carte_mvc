@@ -52,7 +52,8 @@ class ApplicationController:
                                          strip()) - 1
                     if 0 <= selected_index < len(
                             filtered_tournaments):
-                        selected_tournament = filtered_tournaments[selected_index]
+                        selected_tournament = (
+                            filtered_tournaments)[selected_index]
                     else:
                         print("Numéro de tournoi invalide.")
                         continue
@@ -105,7 +106,9 @@ class ApplicationController:
         self.tournament_controller.start_tournament()
 
     def load_existing_tournament(self):
-        """Loads an existing tournament by displaying available tournaments for selection."""
+        """Loads an existing tournament by displaying
+        available tournaments for selection.
+        """
         tournaments = self.tournament_controller.get_unfinished_tournaments()
 
         if not tournaments:
@@ -117,9 +120,12 @@ class ApplicationController:
             print(f"{idx}. ID: {tournament['id']}, Nom: {tournament['name']}")
 
         # Option pour rechercher par nom de tournoi
-        search_choice = input("Souhaitez-vous rechercher un tournoi par nom ? (o/n) : ").strip().lower()
+        search_choice = input("Souhaitez-vous rechercher "
+                              "un tournoi par nom ? (o/n) : ").strip().lower()
         if search_choice == 'o':
-            search_name = input("Entrez le nom ou une partie du nom du tournoi : ").strip().lower()
+            search_name = (input("Entrez le nom"
+                                 " ou une partie du nom du tournoi : ").
+                           strip().lower())
             filtered_tournaments = [
                 t for t in tournaments if search_name in t['name'].lower()
             ]
@@ -130,18 +136,22 @@ class ApplicationController:
 
             print("=== Tournois correspondants ===")
             for idx, tournament in enumerate(filtered_tournaments, start=1):
-                print(f"{idx}. ID: {tournament['id']}, Nom: {tournament['name']}")
+                print(f"{idx}. ID: {tournament['id']},"
+                      f" Nom: {tournament['name']}")
 
-            selected_id = input("Veuillez entrer l'ID du tournoi à charger : ").strip()
+            selected_id = input("Veuillez entrer l'ID"
+                                " du tournoi à charger : ").strip()
         else:
-            selected_id = input("Veuillez entrer l'ID du tournoi à charger : ").strip()
+            selected_id = input("Veuillez entrer l'ID"
+                                " du tournoi à charger : ").strip()
 
         if self.tournament_controller.load_tournament_by_id(selected_id):
             print("Tournoi chargé avec succès.")
 
             # Check if the loaded tournament can be resumed
             if self.tournament_controller.can_resume_tournament():
-                resume_choice = input("Souhaitez-vous reprendre le tournoi ? (o/n) : ").strip().lower()
+                resume_choice = input("Souhaitez-vous reprendre"
+                                      " le tournoi ? (o/n) : ").strip().lower()
                 if resume_choice == "o":
                     self.tournament_controller.start_tournament()
                 else:
@@ -150,4 +160,3 @@ class ApplicationController:
                 print("Ce tournoi est déjà terminé.")
         else:
             print("ID du tournoi invalide ou tournoi introuvable.")
-

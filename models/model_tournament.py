@@ -5,7 +5,12 @@ from models.model_player import Player
 
 
 class Tournament:
-    def __init__(self, name, location, start_date, end_date=None, description="", number_of_rounds=1):
+    def __init__(self, name,
+                 location,
+                 start_date,
+                 end_date=None,
+                 description="",
+                 number_of_rounds=1):
         self.id = None
         self.name = name
         self.location = location
@@ -24,8 +29,9 @@ class Tournament:
         self.end_date = datetime.now().strftime("%d/%m/%Y")
 
     def add_player(self, player):
-        """Adds a player to the tournament and initializes their score and opponent list."""
-        # Ensure the player is prepared for the tournament with specific attributes
+        """Adds a player to the tournament
+        and initializes their score and opponent list.
+        """
         player.score = 0
         player.opponents = []
         self.players.append(player)
@@ -44,8 +50,12 @@ class Tournament:
             player2.opponents.append(player1.national_id)
 
     def generate_pairs(self):
-        """Generates unique pairs for the matches based on player scores and previous opponents."""
-        sorted_players = sorted(self.players, key=lambda p: p.score, reverse=True)
+        """Generates unique pairs for the matches
+        based on player scores and previous opponents.
+        """
+        sorted_players = sorted(self.players,
+                                key=lambda p: p.score,
+                                reverse=True)
         pairs = []
         used_players = set()
 
@@ -54,7 +64,9 @@ class Tournament:
                 continue
 
             for player2 in sorted_players[i + 1:]:
-                if player2 not in used_players and player2.national_id not in player1.opponents:
+                if (player2 not in used_players
+                        and player2.national_id
+                        not in player1.opponents):
                     pairs.append((player1, player2))
                     used_players.add(player1)
                     used_players.add(player2)
@@ -63,7 +75,9 @@ class Tournament:
         return pairs
 
     def to_dict(self):
-        """Convert the tournament instance to a dictionary for JSON serialization."""
+        """Convert the tournament instance to a
+        dictionary for JSON serialization.
+        """
         return {
             "id": self.id,
             "name": self.name,
@@ -75,7 +89,7 @@ class Tournament:
             "completed": self.completed,
             "players": [
                 {
-                    **player.to_dict(),  # Convert each Player instance to a dictionary
+                    **player.to_dict(),
                     "score": getattr(player, "score", 0),
                     "opponents": getattr(player, "opponents", [])
                 }
@@ -100,8 +114,11 @@ class Tournament:
             player.opponents = p_data.get("opponents", [])
             tournament.players.append(player)
 
-        tournament.rounds = [Round.from_dict(r_data, tournament) for r_data in data["rounds"]]
+        tournament.rounds = [Round.from_dict(r_data, tournament)
+                             for r_data in data["rounds"]]
         return tournament
 
     def __repr__(self):
-        return f"Tournament(id={self.id}, name={self.name}, location={self.location})"
+        return (f"Tournament(id={self.id},"
+                f" name={self.name},"
+                f" location={self.location})")

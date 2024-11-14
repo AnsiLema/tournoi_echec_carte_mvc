@@ -30,7 +30,7 @@ class PlayerMenuView:
 
     @staticmethod
     def display_start_tournament_confirmation():
-        return input("Appuyer sur 'Entrée' pour commencer le tournoi avec les joueurs actuels,"
-                       " ou 'Retour' pour revenir au menu des joueurs :")
-
-
+        return input(
+            "Appuyer sur 'Entrée' pour "
+            "commencer le tournoi avec les joueurs actuels,"
+            " ou 'Retour' pour revenir au menu des joueurs :")

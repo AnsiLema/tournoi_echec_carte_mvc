@@ -20,19 +20,20 @@ class MainMenuView:
         print("2. Liste de tous les tournois")
         print("3. Nom et dates d’un tournoi donné")
         print("4. Liste des joueurs du tournoi par ordre alphabétique")
-        print("5. Liste de tous les tours du tournoi et de tous les matchs du tour")
+        print("5. Liste de tous les tours du tournoi "
+              "et de tous les matchs du tour")
         print("6. Retour au menu principal")
         choice = input("Veuillez choisir une option : ")
         return choice
 
     @staticmethod
     def prompt_date(prompt_message, optional=False):
-        """Prompt for a date in the format JJ/MM/AAAA, validate the format, and allow empty input if optional."""
-        date_pattern = r"^\d{2}/\d{2}/\d{4}$"  # Pattern for DD/MM/YYYY format
+        """Prompt for a date in the format JJ/MM/AAAA,
+        validate the format, and allow empty input if optional."""
+        date_pattern = r"^\d{2}/\d{2}/\d{4}$"
         while True:
             date_str = input(prompt_message).strip()
 
-            # If the date is optional and the user leaves it empty, return None
             if optional and date_str == "":
                 return None
 
@@ -43,9 +44,11 @@ class MainMenuView:
                     datetime.strptime(date_str, "%d/%m/%Y")
                     return date_str
                 except ValueError:
-                    print("Date invalide. Assurez-vous d'entrer une date réelle.")
+                    print("Date invalide. "
+                          "Assurez-vous d'entrer une vraie date.")
             else:
-                print("Format invalide. La date doit être au format JJ/MM/AAAA.")
+                print("Format invalide. "
+                      "La date doit être au format JJ/MM/AAAA.")
 
     @staticmethod
     def get_tournament_details():
@@ -57,11 +60,16 @@ class MainMenuView:
         start_date = MainMenuView.prompt_date("Date de début (JJ/MM/AAAA) : ")
         # Using prompt_date with optional=True for the end date
         end_date = MainMenuView.prompt_date("Date de fin (JJ/MM/AAAA, "
-                                            "laissez vide si non définie) : ", optional=True)
+                                            "laissez vide si non définie) : ",
+                                            optional=True)
 
         description = input("Description du tournoi : ")
         number_of_rounds = int(input("Nombre de rounds : "))
-        return name, location, start_date, end_date, description, number_of_rounds
+        return (name, location,
+                start_date,
+                end_date,
+                description,
+                number_of_rounds)
 
     @staticmethod
     def display_load_tournament():
