@@ -201,11 +201,13 @@ class TournamentController:
         """Return a list of all tournaments."""
         return load_all_tournaments()
 
-    def search_tournaments_by_name(self, name_start):
-        """Search for tournaments whose names start with the given letters."""
+    def search_tournaments_by_name(self, search_str):
+        """Search for tournaments whose names contain the given letters,
+         case-insensitive.
+         """
         tournaments = load_all_tournaments()
-        return [t for t in tournaments if t['name']
-                .lower().startswith(name_start.lower())]
+        return [t for t in tournaments
+                if search_str.lower() in t['name'].lower()]
 
     def get_tournament_details(self, tournament_id):
         """Return the name and dates of a specific tournament."""
