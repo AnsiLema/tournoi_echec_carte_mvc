@@ -1,4 +1,4 @@
-# Application pour les tournois d'échec
+# Chess Tournament Application
 
 ## Description
 
@@ -15,30 +15,77 @@ Cette application permet de gérer un tournoi d'échecs en utilisant Python. Ell
 Voici une présentation des fichiers principaux de l'application :
 
 ```
-|-- tournament_controller.py
-|-- application_controller.py
-|-- main_menu_view.py
-|-- player_view.py
-|-- tournament_view.py
+|-- controllers
+|   |-- __init__.py
+|   |-- application_controller.py
+|   |-- tournament_controller.py
+|
+|-- data
+|   |-- players.json
+|   |-- tournaments.json
+|
+|-- flake8-html
+|   |-- back.svg
+|   |-- file.svg
+|   |-- index.html
+|   |-- styles.css
+|
+|-- models
+|   |-- __init__.py
+|   |-- model_match.py
+|   |-- model_player.py
+|   |-- model_round.py
+|   |-- model_tournament.py
+|
+|-- views
+|   |-- __init__.py
+|   |-- main_menu_view.py
+|   |-- player_view.py
+|   |-- tournament_view.py
+|
+|-- config.py
+|-- main.py
+|-- README.md
+|-- requirements.txt
 ```
 
-- **tournament_controller.py** : Contrôleur gérant la logique des tournois, incluant la gestion des matchs et la coordination des différentes vues.
-- **application_controller.py** : Point d'entrée principal de l'application, qui gère les interactions entre l'utilisateur et les différents contrôleurs.
-- **main_menu_view.py** : Vue présentant le menu principal, offrant des options pour accéder à différentes fonctionnalités.
-- **player_view.py** : Vue gérant les interactions utilisateur pour la gestion des joueurs.
-- **tournament_view.py** : Vue gérant les interactions utilisateur pour la gestion des tournois.
+- **controllers/** : Contient les contrôleurs qui gèrent la logique de l'application.
+  - **application_controller.py** : Point d'entrée principal de l'application, qui gère les interactions entre l'utilisateur et les différents contrôleurs.
+  - **tournament_controller.py** : Contrôleur gérant la logique des tournois, incluant la gestion des matchs et la coordination des différentes vues.
+
+- **data/** : Contient les fichiers JSON pour la persistance des données.
+  - **players.json** : Fichier contenant les données des joueurs.
+  - **tournaments.json** : Fichier contenant les données des tournois.
+
+- **flake8-html/** : Contient le rapport flake8 généré en HTML pour la qualité du code.
+
+- **models/** : Contient les modèles de données utilisés dans l'application.
+  - **model_match.py** : Modèle représentant un match.
+  - **model_player.py** : Modèle représentant un joueur.
+  - **model_round.py** : Modèle représentant un round de tournoi.
+  - **model_tournament.py** : Modèle représentant un tournoi.
+
+- **views/** : Contient les vues qui gèrent l'interface utilisateur.
+  - **main_menu_view.py** : Vue présentant le menu principal, offrant des options pour accéder à différentes fonctionnalités.
+  - **player_view.py** : Vue gérant les interactions utilisateur pour la gestion des joueurs.
+  - **tournament_view.py** : Vue gérant les interactions utilisateur pour la gestion des tournois.
+
+- **config.py** : Fichier de configuration de l'application.
+- **main.py** : Point d'entrée principal pour lancer l'application.
+- **requirements.txt** : Fichier listant les dépendances requises pour le projet.
 
 ## Prérequis
 - Python 3.8+
+- Aucune autre dépendance externe n'est requise.
 
 ## Installation
 1. Clonez le dépôt :
    ```
-   git clone https://github.com/username/chess-tournament.git
+   git clone https://github.com/AnsiLema/tournoi_echec_v2.git
    ```
 2. Accédez au dossier du projet :
    ```
-   cd chess-tournament
+   cd tournoi_echec_v2
    ```
 
 ## Mise en place de l'environnement virtuel
@@ -57,7 +104,7 @@ Il est recommandé d'utiliser un environnement virtuel pour isoler les dépendan
      ```
      source venv/bin/activate
      ```
-3. Installez les dépendances requises :
+3. Installez les dépendances requises (s'il y en a) :
    ```
    pip install -r requirements.txt
    ```
@@ -65,8 +112,21 @@ Il est recommandé d'utiliser un environnement virtuel pour isoler les dépendan
 ## Lancer l'application
 Une fois l'environnement virtuel activé, lancez l'application :
 ``` 
-python application_controller.py
+python main.py
 ```
+
+## Générer un rapport flake8 en HTML
+Pour s'assurer de la qualité du code, vous pouvez utiliser flake8 pour générer un rapport en HTML. Voici comment procéder :
+
+1. Installez flake8 et le plugin flake8-html :
+   ```
+   pip install flake8 flake8-html
+   ```
+2. Générez le rapport HTML :
+   ```
+   flake8 --format=html --htmldir=flake8-html
+   ```
+3. Le rapport sera généré dans le dossier `flake8-html` et vous pourrez ouvrir le fichier `index.html` dans votre navigateur pour voir les détails des erreurs et avertissements.
 
 ## Utilisation
 L'application est utilisée via une interface en ligne de commande.
@@ -79,13 +139,6 @@ L'application est utilisée via une interface en ligne de commande.
 3. Ajoutez des joueurs au tournoi.
 4. Démarrez le tournoi et entrez les scores des matchs à chaque tour.
 
-## Contribution
-Les contributions sont les bienvenues ! Pour proposer des modifications :
-1. Forkez le projet.
-2. Créez une branche pour votre fonctionnalité : `git checkout -b nouvelle-fonctionnalite`.
-3. Commitez vos modifications : `git commit -m 'Ajout d'une nouvelle fonctionnalité'`.
-4. Poussez sur la branche : `git push origin nouvelle-fonctionnalite`.
-5. Ouvrez une Pull Request.
-
 ## Auteur
-Développé par A'nsi Lema.
+Développé par A'nsi.
+
