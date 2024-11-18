@@ -50,10 +50,10 @@ class TournamentView:
     @staticmethod
     def display_all_players(players):
         print("\n=== Liste de tous les joueurs ===")
-        for player in players:
-            print(f"{player['last_name']} {player['first_name']}"
+        for index, player in enumerate(players, start=1):
+            print(f"{index}. {player['last_name']} {player['first_name']}"
                   f" (ID: {player['national_id']})")
-        print("\n")
+        print(f"\nNombre total de joueurs : {len(players)}\n")
 
     @staticmethod
     def display_all_tournaments(tournaments):
