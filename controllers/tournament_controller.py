@@ -1,11 +1,9 @@
 from config import (load_players, save_players,
-                    load_all_tournaments,
-                    save_tournament)
+                    load_all_tournaments, save_tournament)
 from models.model_player import Player
 from models.model_tournament import Tournament
 from views.tournament_view import TournamentView
 from views.player_view import PlayerMenuView
-
 
 class TournamentController:
     def __init__(self):
@@ -22,27 +20,19 @@ class TournamentController:
             next_id = 1  # Start with ID 0001 if no tournaments exist
         return f"{next_id:04d}"
 
-    def create_tournament(self, name,
-                          location,
-                          start_date,
-                          end_date,
-                          description,
-                          number_of_rounds):
+    def create_tournament(self, name, location, start_date, end_date, description, number_of_rounds):
         """Initialize a new tournament with a unique 4-digit ID."""
-        # Create the tournament, allowing end_date to be None
-        self.tournament = Tournament(name,
-                                     location,
-                                     start_date,
-                                     end_date,
-                                     description,
-                                     number_of_rounds)
+        if number_of_rounds is None:
+            number_of_rounds = 4
+
+        self.tournament = Tournament(name, location, start_date, end_date, description, number_of_rounds)
         self.tournament.id = self._get_next_id()
         TournamentView.display_tournament_info(self.tournament)
         self._save_current_tournament()
 
     def load_all_players(self):
         """Load all players from players.json and return a dictionary with national_id as the key."""
-        players_data = load_players()  # Charge les données des joueurs depuis un fichier
+        players_data = load_players()
         all_players = {p["national_id"]: Player.from_dict(p) for p in players_data}
         return all_players
 
@@ -52,136 +42,120 @@ class TournamentController:
         return [t for t in tournaments if not t.get("completed", False)]
 
     def load_tournament_by_id(self, tournament_id):
-        """Load a tournament by its ID and return the tournament object, not a bool."""
+        """Load a tournament by its ID and return the tournament object."""
         tournaments = load_all_tournaments()
         tournament_data = next((t for t in tournaments if t['id'] == tournament_id), None)
 
         if tournament_data:
-            # Charger tous les joueurs avant de créer le tournoi
-            all_players = self.load_all_players()  # Cette fonction doit retourner un dictionnaire de tous les joueurs
-
-            # Passer all_players à from_dict
+            all_players = self.load_all_players()
             self.tournament = Tournament.from_dict(tournament_data, all_players)
-            return self.tournament  # Return the Tournament object
+            return self.tournament
         else:
-            print("Tournoi non trouvé ou déjà terminé.")
-            return None  # Return None if not found
+            TournamentView.display_tournament_not_found()
+            return None
 
     def can_resume_tournament(self):
         """Check if there are any remaining rounds to play."""
-        if (self.tournament and len(self.tournament.rounds)
-                < self.tournament.number_of_rounds):
+        if self.tournament and len(self.tournament.rounds) < self.tournament.number_of_rounds:
             return True
         return False
 
     def add_players(self):
-        """Gère l'ajout de joueurs jusqu'à ce que le nombre requis de joueurs soit atteint."""
-        # Calculer le nombre requis de joueurs en fonction du nombre de rounds
+        """Manage adding players until the required number is reached."""
         required_players = self.tournament.number_of_rounds * 2
 
         while len(self.tournament.players) < required_players:
-            print(f"Nombre de joueurs enregistrés : {len(self.tournament.players)}"
-                  f" / {required_players} requis")
-
-            add_choice = input("Voulez-vous :\n"
-                               "1. Créer un nouveau joueur\n"
-                               "2. Sélectionner un joueur existant\n> ")
+            PlayerMenuView.display_player_count(len(self.tournament.players), required_players)
+            add_choice = PlayerMenuView.get_add_choice()
 
             if add_choice == '1':
                 self._add_new_player(self.players)
             elif add_choice == '2':
                 self._select_player(self.players)
             else:
-                print("Option non valide, veuillez réessayer.")
+                PlayerMenuView.display_invalid_option()
 
             self._save_current_tournament()
 
-        print("Le nombre requis de joueurs a été atteint. Le tournoi peut commencer.")
+        PlayerMenuView.display_ready_to_start()
 
     def _add_new_player(self, players):
-        (last_name, first_name,
-         date_of_birth,
-         national_id) = PlayerMenuView.display_add_player_menu()
-        new_player = {"last_name": last_name,
-                      "first_name": first_name,
-                      "date_of_birth": date_of_birth,
-                      "national_id": national_id}
+        last_name, first_name, date_of_birth, national_id = PlayerMenuView.display_add_player_menu()
+
+        # Vérifiez si le joueur est déjà ajouté au tournoi
+        if any(player.national_id == national_id for player in self.tournament.players):
+            PlayerMenuView.display_player_already_added()
+            return
+
+        new_player = {
+            "last_name": last_name,
+            "first_name": first_name,
+            "date_of_birth": date_of_birth,
+            "national_id": national_id
+        }
         players.append(new_player)
         save_players(players)
-        player = Player(last_name,
-                        first_name,
-                        date_of_birth,
-                        national_id)
+
+        player = Player(last_name, first_name, date_of_birth, national_id)
         self.tournament.add_player(player)
         PlayerMenuView.display_add_player_success_menu()
 
     def _select_player(self, players):
         while True:
-            filter_str = input(
-                "Entrez une lettre ou plusieurs lettres pour filtrer"
-                " les joueurs par nom de famille, "
-                "puis un numéro pour sélectionner : ").strip().lower()
-
-            filtered_players = [
-                p for p in players if p["last_name"].lower().
-                startswith(filter_str)
-            ]
+            filter_str = PlayerMenuView.get_player_filter()
+            filtered_players = [p for p in players if p["last_name"].lower().startswith(filter_str)]
 
             if not filtered_players:
-                print("Aucun joueur ne correspond à ce filtre.")
-                continue  # Prompt the user for input again
+                PlayerMenuView.display_no_matching_players()
+                continue
 
-            # Display filtered players with numbered list
-            for i, player in enumerate(filtered_players, start=1):
-                print(f"{i}. {player['first_name']} {player['last_name']}"
-                      f" (ID: {player['national_id']})")
-
-            input_str = input("Entrez le numéro pour sélectionner un joueur "
-                              "ou 'r' pour réessayer le filtre : ").strip()
+            PlayerMenuView.display_filtered_players(filtered_players)
+            input_str = PlayerMenuView.get_player_selection()
 
             if input_str.isdigit():
                 choice = int(input_str) - 1
                 if 0 <= choice < len(filtered_players):
                     selected_player = filtered_players[choice]
-                    player = Player(selected_player["last_name"],
-                                    selected_player["first_name"],
-                                    selected_player["date_of_birth"],
-                                    selected_player["national_id"])
+
+                    # Vérifiez si le joueur est déjà ajouté au tournoi
+                    if any(player.national_id == selected_player["national_id"] for player in self.tournament.players):
+                        PlayerMenuView.display_player_already_added()
+                        continue
+
+                    player = Player(
+                        selected_player["last_name"],
+                        selected_player["first_name"],
+                        selected_player["date_of_birth"],
+                        selected_player["national_id"]
+                    )
                     self.tournament.add_player(player)
-                    print(f"{player.first_name} {player.last_name}"
-                          f" a été ajouté au tournoi.")
+                    PlayerMenuView.display_player_added(player)
                     self._save_current_tournament()
                     return
                 else:
-                    print("Numéro invalide, veuillez réessayer.")
+                    PlayerMenuView.display_invalid_number()
             elif input_str.lower() == 'r':
-                # Allows the user to re-enter a filter string
                 continue
             else:
-                print("Entrée invalide, veuillez réessayer.")
+                PlayerMenuView.display_invalid_entry()
 
     def start_tournament(self):
-        """Begins the tournament,
-        marking it as completed when finished.
-        """
+        """Begins the tournament, marking it as completed when finished."""
         if not self.tournament or len(self.tournament.players) < 2:
-            print("Au moins 2 joueurs sont requis pour démarrer le tournoi.")
+            TournamentView.display_insufficient_players()
             return
 
         starting_round = len(self.tournament.rounds) + 1
-        for round_num in range(starting_round,
-                               self.tournament.number_of_rounds + 1):
+        for round_num in range(starting_round, self.tournament.number_of_rounds + 1):
             self.tournament.start_new_round()
             current_round = self.tournament.rounds[-1]
-            TournamentView.display_round_info(round_num,
-                                              current_round.matches)
+            TournamentView.display_round_info(round_num, current_round.matches)
 
             for match in current_round.matches:
                 match.add_points()
                 TournamentView.display_match_result(match)
 
             current_round.finish_round()
-            # Save tournament state after each round
             self._save_current_tournament()
             TournamentView.display_rankings(self.tournament.players)
 
@@ -189,7 +163,6 @@ class TournamentController:
             self.tournament.mark_as_completed()
             self._save_current_tournament()
             TournamentView.display_final_results(self.tournament.players)
-            print("\n=== Le tournoi est terminé ===")
 
     def _save_current_tournament(self):
         """Save or update the current tournament in tournaments.json."""
@@ -226,15 +199,26 @@ class TournamentController:
         return None
 
     def get_tournament_players_sorted(self, tournament_id):
-        """Return a list of players in a tournament,
-         sorted alphabetically.
-         """
+        """Return a list of players in a tournament, sorted alphabetically."""
+        # Charger les données des tournois et trouver le tournoi correspondant
         tournaments = load_all_tournaments()
-        tournament = next((t for t in tournaments if t['id']
-                           == tournament_id), None)
+        tournament = next((t for t in tournaments if t['id'] == tournament_id), None)
+
         if tournament:
-            players = tournament.get('players', [])
-            return sorted(players, key=lambda p: p['last_name'])
+            # Charger tous les joueurs depuis players.json
+            all_players = self.load_all_players()
+
+            # Récupérer les objets Player complets en utilisant national_id
+            players = [
+                all_players[player_data['national_id']]
+                for player_data in tournament.get('players', [])
+                if player_data['national_id'] in all_players
+            ]
+
+            # Trier les joueurs par 'last_name' (ordre alphabétique)
+            sorted_players = sorted(players, key=lambda p: p.last_name)
+            return sorted_players
+
         return []
 
     def get_tournament_rounds_and_matches(self, tournament_id):

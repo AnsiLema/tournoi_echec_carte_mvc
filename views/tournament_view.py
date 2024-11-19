@@ -1,10 +1,9 @@
 from models.model_match import Match
 
-
 class TournamentView:
     @staticmethod
     def display_tournament_info(tournament):
-        """Affiche les informations générales du tournoi."""
+        """Display general information about the tournament."""
         print("\n=== Informations sur le tournoi ===")
         print(f"Nom du tournoi : {tournament.name}")
         print(f"Lieu : {tournament.location}")
@@ -14,24 +13,105 @@ class TournamentView:
         print(f"Nombre de rounds : {tournament.number_of_rounds}")
 
     @staticmethod
+    def display_no_matching_tournaments():
+        """Display a message when no matching tournaments are found."""
+        print("Aucun tournoi ne correspond à ces lettres.")
+
+    @staticmethod
+    def display_matching_tournaments(tournaments):
+        """Display a list of matching tournaments."""
+        print("\n=== Tournois correspondants ===")
+        for idx, tournament in enumerate(tournaments, start=1):
+            print(f"{idx}: {tournament['name']}")
+
+    @staticmethod
     def display_round_info(round_number, matches):
-        """Affiche les informations sur les matchs d'un round."""
+        """Display the round information and the matches for that round."""
         print(f"\n=== Début du Round {round_number} ===")
         print("Oppositions :")
         for match in matches:
-            print(f"{match.match[0][0]} vs {match.match[1][0]}")
+            # Access players correctly from the match object
+            player1 = match.match[0][0]
+            player2 = match.match[1][0]
+            print(f"{player1.first_name} {player1.last_name} (ID: {player1.national_id}) "
+                  f"vs {player2.first_name} {player2.last_name} (ID: {player2.national_id})")
 
     @staticmethod
     def display_match_result(match):
-        """Shows the result of the match"""
-        print(f"Match : {match.match[0][0]} vs {match.match[1][0]}")
-        print(
-            f"Score du match : {match.match[0][0]} - {match.match_score1} |"
-            f" {match.match[1][0]} - {match.match_score2}")
+        """Display the result of a match."""
+        # Access players correctly from the match object
+        player1 = match.match[0][0]
+        player2 = match.match[1][0]
+        print(f"Match : {player1.first_name} {player1.last_name} (ID: {player1.national_id}) "
+              f"vs {player2.first_name} {player2.last_name} (ID: {player2.national_id})")
+        print(f"Score : {player1.first_name} {player1.last_name} - {match.match_score1} | "
+              f"{player2.first_name} {player2.last_name} - {match.match_score2}")
+
+    @staticmethod
+    def display_loading_error():
+        """Display an error message if the tournament cannot be loaded."""
+        print("Erreur lors du chargement du tournoi.")
+
+    @staticmethod
+    def display_tournament_loaded_success():
+        """Display a success message when a tournament is loaded."""
+        print("Tournoi chargé avec succès.")
+
+    @staticmethod
+    def display_tournament_already_completed():
+        """Display a message when the tournament is already completed."""
+        print("Ce tournoi est déjà terminé.")
+
+    @staticmethod
+    def display_tournament_details(name, start_date, end_date):
+        """Display the details of a tournament."""
+        print("\n=== Détails du Tournoi ===")
+        print(f"Nom: {name}")
+        print(f"Date de début: {start_date}")
+        print(f"Date de fin: {end_date if end_date else 'Non définie'}")
+
+    @staticmethod
+    def display_tournament_players(players):
+        print("\n=== Joueurs du Tournoi (ordre alphabétique) ===")
+        for player in players:
+            print(f"{player.last_name} {player.first_name} (ID: {player.national_id})")
+        print("\n")
+
+    @staticmethod
+    def display_all_players(players):
+        """Display all players in alphabetical order."""
+        print("\n=== Liste de tous les joueurs ===")
+        for index, player in enumerate(players, start=1):
+            print(f"{index}. {player['last_name']} {player['first_name']} (ID: {player['national_id']})")
+        print(f"\nNombre total de joueurs : {len(players)}\n")
+
+    @staticmethod
+    def display_all_tournaments(tournaments):
+        """Display all tournaments."""
+        print("\n=== Liste de tous les tournois ===")
+        for tournament in tournaments:
+            print(f"Nom: {tournament['name']}, Lieu: {tournament['location']}, Date de début: {tournament['start_date']}")
+
+    @staticmethod
+    def display_tournament_rounds_and_matches(rounds, tournament):
+        """Display all rounds and matches of a tournament."""
+        print("\n=== Tours et Matchs du Tournoi ===")
+        for round_info in rounds:
+            print(f"Tour: {round_info['name']}")
+            for match_data in round_info.get('matches', []):
+                match = Match.from_dict(match_data, tournament)
+                if match:
+                    player1_name = match.match[0][0].__str__()
+                    player2_name = match.match[1][0].__str__()
+                    score1 = match.match_score1
+                    score2 = match.match_score2
+                    print(f"  Match: {player1_name} vs {player2_name} - Résultat: {score1} - {score2}")
+                else:
+                    print("  Erreur: Match invalide ou joueurs introuvables.")
 
     @staticmethod
     def display_rankings(players):
-        """Affiche le classement actuel des joueurs."""
+        """Display the current player rankings."""
         print("\n=== Classement des joueurs ===")
         sorted_players = sorted(players, key=lambda p: p.score, reverse=True)
         for rank, player in enumerate(sorted_players, start=1):
@@ -39,62 +119,18 @@ class TournamentView:
 
     @staticmethod
     def display_final_results(players):
-        """Affiche le classement final des joueurs après la fin du tournoi."""
+        """Display the final results of the tournament."""
         print("\n=== Résultats finaux du tournoi ===")
-        sorted_players = sorted(players,
-                                key=lambda p: p.score,
-                                reverse=True)
+        sorted_players = sorted(players, key=lambda p: p.score, reverse=True)
         for rank, player in enumerate(sorted_players, start=1):
             print(f"{rank}. {player} - Score: {player.score}")
 
     @staticmethod
-    def display_all_players(players):
-        print("\n=== Liste de tous les joueurs ===")
-        for index, player in enumerate(players, start=1):
-            print(f"{index}. {player['last_name']} {player['first_name']}"
-                  f" (ID: {player['national_id']})")
-        print(f"\nNombre total de joueurs : {len(players)}\n")
+    def display_tournament_not_found():
+        """Display a message when a tournament is not found."""
+        print("Tournoi non trouvé ou déjà terminé.")
 
     @staticmethod
-    def display_all_tournaments(tournaments):
-        print("\n=== Liste de tous les tournois ===")
-        for tournament in tournaments:
-            print(f"Nom: {tournament['name']},"
-                  f" Lieu: {tournament['location']},"
-                  f" Date de début: {tournament['start_date']}")
-        print("\n")
-
-    @staticmethod
-    def display_tournament_details(name, start_date, end_date):
-        print("\n=== Détails du Tournoi ===")
-        print(f"Nom: {name}")
-        print(f"Date de début: {start_date}")
-        print(f"Date de fin: {end_date if end_date else 'Non définie'}")
-        print("\n")
-
-    @staticmethod
-    def display_tournament_players(players):
-        print("\n=== Joueurs du Tournoi ===")
-        for player in players:
-            print(f"{player['last_name']} {player['first_name']}"
-                  f" (ID: {player['national_id']})")
-        print("\n")
-
-    @staticmethod
-    def display_tournament_rounds_and_matches(rounds, tournament):
-        print("\n=== Tours et Matchs du Tournoi ===")
-        for round_info in rounds:
-            print(f"Tour: {round_info['name']}")
-            for match_data in round_info.get('matches', []):
-                # Use the actual tournament object with players
-                match = Match.from_dict(match_data, tournament)
-                if match:
-                    player1_name = match.match[0][0].__str__()
-                    player2_name = match.match[1][0].__str__()
-                    score1 = match.match_score1
-                    score2 = match.match_score2
-                    print(f"  Match: {player1_name} vs {player2_name} - "
-                          f"Résultat: {score1} - {score2}")
-                else:
-                    print("  Erreur: Match invalide ou joueurs introuvables.")
-        print("\n")
+    def display_insufficient_players():
+        """Display a message when there are not enough players to start the tournament."""
+        print("Au moins 2 joueurs sont requis pour démarrer le tournoi.")
