@@ -40,24 +40,31 @@ class TournamentController:
         TournamentView.display_tournament_info(self.tournament)
         self._save_current_tournament()
 
+    def load_all_players(self):
+        """Load all players from players.json and return a dictionary with national_id as the key."""
+        players_data = load_players()  # Charge les données des joueurs depuis un fichier
+        all_players = {p["national_id"]: Player.from_dict(p) for p in players_data}
+        return all_players
+
     def get_unfinished_tournaments(self):
         """Retrieve only incomplete tournaments from tournaments.json."""
         tournaments = load_all_tournaments()
         return [t for t in tournaments if not t.get("completed", False)]
 
     def load_tournament_by_id(self, tournament_id):
-        """Load a tournament by its ID and
-        return the tournament object, not a bool.
-        """
+        """Load a tournament by its ID and return the tournament object, not a bool."""
         tournaments = load_all_tournaments()
-        tournament_data = next((t for t in tournaments if t['id']
-                                == tournament_id), None)
+        tournament_data = next((t for t in tournaments if t['id'] == tournament_id), None)
 
         if tournament_data:
-            self.tournament = Tournament.from_dict(tournament_data)
+            # Charger tous les joueurs avant de créer le tournoi
+            all_players = self.load_all_players()  # Cette fonction doit retourner un dictionnaire de tous les joueurs
+
+            # Passer all_players à from_dict
+            self.tournament = Tournament.from_dict(tournament_data, all_players)
             return self.tournament  # Return the Tournament object
         else:
-            print("Tournoi introuvable ou terminé.")
+            print("Tournoi non trouvé ou déjà terminé.")
             return None  # Return None if not found
 
     def can_resume_tournament(self):

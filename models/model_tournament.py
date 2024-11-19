@@ -75,9 +75,7 @@ class Tournament:
         return pairs
 
     def to_dict(self):
-        """Convert the tournament instance to a
-        dictionary for JSON serialization.
-        """
+        """Convert the tournament instance to a dictionary for JSON serialization."""
         return {
             "id": self.id,
             "name": self.name,
@@ -89,9 +87,9 @@ class Tournament:
             "completed": self.completed,
             "players": [
                 {
-                    **player.to_dict(),
-                    "score": getattr(player, "score", 0),
-                    "opponents": getattr(player, "opponents", [])
+                    "national_id": player.national_id,
+                    "score": player.score,
+                    "opponents": player.opponents
                 }
                 for player in self.players
             ],
@@ -99,23 +97,28 @@ class Tournament:
         }
 
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data, all_players):
+        """Load a tournament from a dictionary and populate player details using national_id."""
         tournament = cls(
             data["name"], data["location"], data["start_date"],
             data["end_date"], data["description"], data["number_of_rounds"]
         )
         tournament.id = data["id"]
         tournament.completed = data["completed"]
-        # Load players with tournament-specific attributes
-        tournament.players = []
-        for p_data in data["players"]:
-            player = Player.from_dict(p_data)
-            player.score = p_data.get("score", 0)
-            player.opponents = p_data.get("opponents", [])
-            tournament.players.append(player)
 
-        tournament.rounds = [Round.from_dict(r_data, tournament)
-                             for r_data in data["rounds"]]
+        # Retrieve players using their national_id from all_players
+        tournament.players = []
+        for player_data in data["players"]:
+            national_id = player_data["national_id"]
+            if national_id in all_players:
+                player = all_players[national_id]
+                player.score = player_data["score"]
+                player.opponents = player_data["opponents"]
+                tournament.players.append(player)
+            else:
+                print(f"Avertissement: le joueur avec l'ID {national_id} n'a pas été trouvé dans all_players.")
+
+        tournament.rounds = [Round.from_dict(r_data, tournament) for r_data in data["rounds"]]
         return tournament
 
     def __repr__(self):
