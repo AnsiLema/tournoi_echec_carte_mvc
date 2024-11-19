@@ -68,30 +68,28 @@ class TournamentController:
         return False
 
     def add_players(self):
-        """Handles adding players until
-         the user decides to start the tournament.
-         """
-        while True:
-            choice = input("Sélectionnez une option :\n1. Ajouter un joueur\n"
-                           "2. Commencer le tournoi\n> ")
-            if choice == '1':
-                add_choice = input("Voulez-vous :\n"
-                                   "1. Créer un nouveau joueur\n"
-                                   "2. Sélectionner un joueur existant\n> ")
-                if add_choice == '1':
-                    self._add_new_player(self.players)
-                elif add_choice == '2':
-                    self._select_player(self.players)
-                else:
-                    print("Option non valide, veuillez réessayer.")
-                print(f"Nombre de joueurs enregistrés:"
-                      f" {len(self.tournament.players)}")
-                self._save_current_tournament()
-            elif choice == '2' and len(self.tournament.players) >= 2:
-                break
+        """Gère l'ajout de joueurs jusqu'à ce que le nombre requis de joueurs soit atteint."""
+        # Calculer le nombre requis de joueurs en fonction du nombre de rounds
+        required_players = self.tournament.number_of_rounds * 2
+
+        while len(self.tournament.players) < required_players:
+            print(f"Nombre de joueurs enregistrés : {len(self.tournament.players)}"
+                  f" / {required_players} requis")
+
+            add_choice = input("Voulez-vous :\n"
+                               "1. Créer un nouveau joueur\n"
+                               "2. Sélectionner un joueur existant\n> ")
+
+            if add_choice == '1':
+                self._add_new_player(self.players)
+            elif add_choice == '2':
+                self._select_player(self.players)
             else:
-                print("Au moins 2 joueurs sont requis"
-                      " pour démarrer le tournoi.")
+                print("Option non valide, veuillez réessayer.")
+
+            self._save_current_tournament()
+
+        print("Le nombre requis de joueurs a été atteint. Le tournoi peut commencer.")
 
     def _add_new_player(self, players):
         (last_name, first_name,

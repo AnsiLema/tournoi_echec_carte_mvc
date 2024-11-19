@@ -50,35 +50,27 @@ class Tournament:
             player2.opponents.append(player1.national_id)
 
     def generate_pairs(self):
-        """Generates unique pairs for matches
-        based on the absence of previous encounters first,
-        and then on scores.
+        """Generates unique pairs for the matches
+        based on player scores and previous opponents.
         """
-        sorted_players = sorted(self.players, key=lambda p: p.score, reverse=True)
+        sorted_players = sorted(self.players,
+                                key=lambda p: p.score,
+                                reverse=True)
         pairs = []
         used_players = set()
 
-        for player1 in sorted_players:
+        for i, player1 in enumerate(sorted_players):
             if player1 in used_players:
                 continue
 
-            found_pair = False
-            for player2 in sorted_players:
-                if (player2 not in used_players and
-                        player2.national_id not in player1.opponents):
+            for player2 in sorted_players[i + 1:]:
+                if (player2 not in used_players
+                        and player2.national_id
+                        not in player1.opponents):
                     pairs.append((player1, player2))
                     used_players.add(player1)
                     used_players.add(player2)
-                    found_pair = True
                     break
-
-            if not found_pair:
-                for player2 in sorted_players:
-                    if player2 not in used_players:
-                        pairs.append((player1, player2))
-                        used_players.add(player1)
-                        used_players.add(player2)
-                        break
 
         return pairs
 
