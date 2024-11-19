@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 
+
 class MainMenuView:
     @staticmethod
     def display_main_menu():

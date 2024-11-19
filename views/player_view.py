@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class PlayerMenuView:
     @staticmethod
     def display_player_menu():
@@ -56,7 +57,8 @@ class PlayerMenuView:
 
     @staticmethod
     def get_player_filter():
-        return input("Entrez une lettre ou plusieurs lettres pour filtrer les joueurs par nom de famille : ").strip().lower()
+        return (input("Entrez une lettre ou plusieurs lettres pour filtrer les joueurs par nom de famille : ").
+                strip().lower())
 
     @staticmethod
     def display_no_matching_players():

@@ -5,6 +5,7 @@ from models.model_tournament import Tournament
 from views.tournament_view import TournamentView
 from views.player_view import PlayerMenuView
 
+
 class TournamentController:
     def __init__(self):
         self.tournament = None

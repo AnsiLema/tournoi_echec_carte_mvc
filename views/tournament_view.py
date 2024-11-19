@@ -1,5 +1,6 @@
 from models.model_match import Match
 
+
 class TournamentView:
     @staticmethod
     def display_tournament_info(tournament):
@@ -90,14 +91,20 @@ class TournamentView:
         """Display all tournaments."""
         print("\n=== Liste de tous les tournois ===")
         for tournament in tournaments:
-            print(f"Nom: {tournament['name']}, Lieu: {tournament['location']}, Date de début: {tournament['start_date']}")
+            print(f"Nom: {tournament['name']}, Lieu: {tournament['location']},"
+                  f" Date de début: {tournament['start_date']}")
 
     @staticmethod
     def display_tournament_rounds_and_matches(rounds, tournament):
         """Display all rounds and matches of a tournament."""
         print("\n=== Tours et Matchs du Tournoi ===")
         for round_info in rounds:
+            start_date = round_info.get("start_date", "Date de début non définie")
+            end_date = round_info.get("end_date", "Date de fin non définie")
             print(f"Tour: {round_info['name']}")
+            print(f"  Date de début: {start_date}")
+            print(f"  Date de fin: {end_date}")
+
             for match_data in round_info.get('matches', []):
                 match = Match.from_dict(match_data, tournament)
                 if match:

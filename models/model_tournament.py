@@ -1,7 +1,6 @@
 from datetime import datetime
 from models.model_match import Match
 from models.model_round import Round
-from models.model_player import Player
 
 
 class Tournament:

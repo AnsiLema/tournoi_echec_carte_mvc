@@ -2,6 +2,7 @@ from controllers.tournament_controller import TournamentController
 from views.main_menu_view import MainMenuView
 from views.tournament_view import TournamentView
 
+
 class ApplicationController:
     def __init__(self):
         self.tournament_controller = TournamentController()
