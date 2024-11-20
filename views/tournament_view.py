@@ -38,6 +38,17 @@ class TournamentView:
                   f"vs {player2.first_name} {player2.last_name} (ID: {player2.national_id})")
 
     @staticmethod
+    def get_match_result(player1, player2):
+        while True:
+            result = input(
+                f"Entrez le résultat pour le match entre {player1} et {player2} "
+                f"(1 pour {player1}, N pour nul, 2 pour {player2}): "
+            ).strip()
+            if result in ["1", "N", "n", "2"]:
+                return result
+            print("Entrée invalide. Veuillez entrer '1', 'N', ou '2'.")
+
+    @staticmethod
     def display_match_result(match):
         """Display the result of a match."""
         # Access players correctly from the match object

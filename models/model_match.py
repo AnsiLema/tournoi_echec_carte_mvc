@@ -19,29 +19,22 @@ class Match:
         self.match_score1 = 0
         self.match_score2 = 0
 
-    def add_points(self):
-        """Assigns points based on match result input,
-         storing only the match score for display.
-         """
-        while True:
-            result = input(
-                f"Entrez le résultat pour le match entre {self.match[0][0]} "
-                f"et {self.match[1][0]} (1 pour {self.match[0][0]},"
-                f" N pour nul,"
-                f" 2 pour {self.match[1][0]}): "
-            ).strip()
-            if result == "1":
-                self.match_score1, self.match_score2 = self.MATCH_SCORE[0]
-                break
-            elif result in ["N", "n"]:
-                self.match_score1, self.match_score2 = self.MATCH_SCORE[1]
-                break
-            elif result == "2":
-                self.match_score1, self.match_score2 = self.MATCH_SCORE[2]
-                break
-            else:
-                print("Entrée invalide. Veuillez entrer '1', 'N' ou '2'.")
+    def add_points(self, result):
+        """
+        Assign points based on the match result.
+        :param result: str, "1" (player1 wins), "2" (player2 wins), "N" (draw)
+        :raises ValueError: if result is invalid
+        """
+        if result == "1":
+            self.match_score1, self.match_score2 = self.MATCH_SCORE[0]
+        elif result in ["N", "n"]:
+            self.match_score1, self.match_score2 = self.MATCH_SCORE[1]
+        elif result == "2":
+            self.match_score1, self.match_score2 = self.MATCH_SCORE[2]
+        else:
+            raise ValueError("Résultat invalide. Utilisez '1', 'N', ou '2'.")
 
+        # Update player scores
         self.match[0][0].score += self.match_score1
         self.match[1][0].score += self.match_score2
 
@@ -58,25 +51,26 @@ class Match:
 
     @classmethod
     def from_dict(cls, data, tournament):
-        """Creates a Match instance from a dictionary."""
+        """
+        Creates a Match instance from a dictionary.
+        :param data: dict, match data
+        :param tournament: Tournament, containing player data
+        :raises KeyError: if players are not found in the tournament
+        """
         player1_id = data["player1_id"]
         player2_id = data["player2_id"]
 
         # Find players by ID in the tournament
-        player1 = next((p for p in tournament.players
-                        if p.national_id == player1_id), None)
-        player2 = next((p for p in tournament.players
-                        if p.national_id == player2_id), None)
+        player1 = next((p for p in tournament.players if p.national_id == player1_id), None)
+        player2 = next((p for p in tournament.players if p.national_id == player2_id), None)
 
-        if player1 and player2:
-            match_instance = cls(player1, player2)
-            match_instance.match_score1 = data.get("score1", 0)
-            match_instance.match_score2 = data.get("score2", 0)
-            return match_instance
-        else:
-            print(f"Error: Could not find players with IDs {player1_id} "
-                  f"and {player2_id} in the tournament.")
-            return None
+        if not player1 or not player2:
+            raise KeyError(f"Joueurs introuvables : {player1_id}, {player2_id}")
+
+        match_instance = cls(player1, player2)
+        match_instance.match_score1 = data.get("score1", 0)
+        match_instance.match_score2 = data.get("score2", 0)
+        return match_instance
 
     def __str__(self):
         return f"Match entre {self.match[0][0]} et {self.match[1][0]}"

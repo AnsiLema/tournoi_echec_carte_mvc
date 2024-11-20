@@ -153,7 +153,8 @@ class TournamentController:
             TournamentView.display_round_info(round_num, current_round.matches)
 
             for match in current_round.matches:
-                match.add_points()
+                result = TournamentView.get_match_result(match.match[0][0], match.match[1][0])
+                match.add_points(result)
                 TournamentView.display_match_result(match)
 
             current_round.finish_round()
