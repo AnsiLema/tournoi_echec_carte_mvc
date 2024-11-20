@@ -141,3 +141,12 @@ class TournamentView:
     def display_insufficient_players():
         """Display a message when there are not enough players to start the tournament."""
         print("Au moins 2 joueurs sont requis pour démarrer le tournoi.")
+
+    @staticmethod
+    def ask_to_continue_after_round():
+        return input("Souhaitez-vous continuer le tournoi ? (o/n) : ").strip().lower()
+
+    @staticmethod
+    def display_tournament_paused():
+        """Inform the user that the tournament is paused."""
+        print("Le tournoi a été mis en pause. Vous pouvez le reprendre plus tard.")

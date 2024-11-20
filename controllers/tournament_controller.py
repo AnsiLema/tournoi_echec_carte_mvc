@@ -160,6 +160,17 @@ class TournamentController:
             self._save_current_tournament()
             TournamentView.display_rankings(self.tournament.players)
 
+            # Do not ask to continue if it's the last round
+            if round_num == self.tournament.number_of_rounds:
+                break
+
+            # Ask user if he wants to continue the tournament
+            continue_choice = TournamentView.ask_to_continue_after_round()
+            if continue_choice != "o":
+                TournamentView.display_tournament_paused()
+                break
+
+        # Check if the tournament is completed
         if len(self.tournament.rounds) == self.tournament.number_of_rounds:
             self.tournament.mark_as_completed()
             self._save_current_tournament()
