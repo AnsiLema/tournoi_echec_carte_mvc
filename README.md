@@ -1,14 +1,14 @@
-# Logiciel de Tournoi d'Échec
+# Chess Tournament Application
 
 ## Description
 
-Cette application permet de gérer un tournoi d'échecs en utilisant Python. Le but de l'application est de faciliter la gestion des joueurs, des tournois, ainsi que des scores et des rencontres entre les joueurs. L'application fonctionne hors-ligne, et utilise des fichiers JSON pour la persistance des données.
+Cette application permet de gérer un tournoi d'échecs en utilisant Python. Elle suit le schéma MVC (Model-View-Controller) afin de structurer le code de manière claire et séparée. Le but de l'application est de faciliter la gestion des joueurs, des tournois, ainsi que des scores et des rencontres entre les joueurs. L'application fonctionne hors-ligne, et utilise des fichiers JSON pour la persistance des données.
 
 ## Fonctionnalités
-- Gestion des joueurs : ajout et sélection des joueurs.
-- Gestion des tournois : création et mise à jour des informations du tournoi.
+- Gestion des joueurs : ajout, modification et suppression des joueurs.
+- Gestion des tournois : création, planification, et mise à jour des informations du tournoi.
 - Gestion des matchs : couplage des joueurs pour les matchs, saisie des scores.
-- Sauvegarde des données : enregistrement des joueurs, des tournois et des matchs dans des fichiers JSON.
+- Persistance des données : enregistrement des joueurs, des tournois et des matchs dans des fichiers JSON.
 - Interface utilisateur en ligne de commande.
 
 ## Arborescence des Fichiers
@@ -23,6 +23,12 @@ Voici une présentation des fichiers principaux de l'application :
 |-- data
 |   |-- players.json
 |   |-- tournaments.json
+|
+|-- flake8-html
+|   |-- back.svg
+|   |-- file.svg
+|   |-- index.html
+|   |-- styles.css
 |
 |-- models
 |   |-- __init__.py
@@ -56,7 +62,7 @@ Voici une présentation des fichiers principaux de l'application :
 - **models/** : Contient les modèles de données utilisés dans l'application.
   - **model_match.py** : Modèle représentant un match.
   - **model_player.py** : Modèle représentant un joueur.
-  - **model_round.py** : Modèle représentant un tour dans un tournoi.
+  - **model_round.py** : Modèle représentant un round de tournoi.
   - **model_tournament.py** : Modèle représentant un tournoi.
 
 - **views/** : Contient les vues qui gèrent l'interface utilisateur.
@@ -98,7 +104,7 @@ Il est recommandé d'utiliser un environnement virtuel pour isoler les dépendan
      ```
      source venv/bin/activate
      ```
-3. Installez les dépendances requises :
+3. Installez les dépendances requises (s'il y en a) :
    ```
    pip install -r requirements.txt
    ```
