@@ -70,7 +70,6 @@ Voici une présentation des fichiers principaux de l'application :
 
 ## Prérequis
 - Python 3.8+
-- Aucune autre dépendance externe n'est requise.
 
 ## Installation
 1. Clonez le dépôt :
@@ -98,7 +97,11 @@ Il est recommandé d'utiliser un environnement virtuel pour isoler les dépendan
      ```
      source venv/bin/activate
      ```
-3. Installez les dépendances requises (s'il y en a) :
+     
+## Installation des paquets Python
+Afin de faire fonctionner l'application, il faut installer les paquets Python necessaire:
+
+Installez les dependances pour l'application:
    ```
    pip install -r requirements.txt
    ```
