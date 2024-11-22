@@ -1,0 +1,224 @@
+[
+    {
+        "id": "0001",
+        "name": "Test",
+        "location": "Cognac",
+        "start_date": "24/11/2024",
+        "end_date": "20/11/2024",
+        "description": "Tournoi de test",
+        "number_of_rounds": 4,
+        "completed": true,
+        "players": [
+            {
+                "national_id": "AL12585",
+                "score": 4,
+                "opponents": [
+                    "GT15698",
+                    "GT75651",
+                    "wx24250",
+                    "Af88030"
+                ]
+            },
+            {
+                "national_id": "GT15698",
+                "score": 3,
+                "opponents": [
+                    "AL12585",
+                    "Oo84614",
+                    "GT75651",
+                    "wx24250"
+                ]
+            },
+            {
+                "national_id": "GT75651",
+                "score": 2,
+                "opponents": [
+                    "Oo84614",
+                    "AL12585",
+                    "GT15698",
+                    "Uy64774"
+                ]
+            },
+            {
+                "national_id": "Oo84614",
+                "score": 1,
+                "opponents": [
+                    "GT75651",
+                    "GT15698",
+                    "Kt38253"
+                ]
+            },
+            {
+                "national_id": "wx24250",
+                "score": 2,
+                "opponents": [
+                    "Af88030",
+                    "Uy64774",
+                    "AL12585",
+                    "GT15698"
+                ]
+            },
+            {
+                "national_id": "Af88030",
+                "score": 2,
+                "opponents": [
+                    "wx24250",
+                    "Kt38253",
+                    "Uy64774",
+                    "AL12585"
+                ]
+            },
+            {
+                "national_id": "Uy64774",
+                "score": 1,
+                "opponents": [
+                    "Kt38253",
+                    "wx24250",
+                    "Af88030",
+                    "GT75651"
+                ]
+            },
+            {
+                "national_id": "Kt38253",
+                "score": 0,
+                "opponents": [
+                    "Uy64774",
+                    "Af88030",
+                    "Oo84614"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "GT15698",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT75651",
+                        "player2_id": "Oo84614",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "wx24250",
+                        "player2_id": "Af88030",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Uy64774",
+                        "player2_id": "Kt38253",
+                        "score1": 1,
+                        "score2": 0
+                    }
+                ],
+                "start_date": "20/11/2024 10:01:54",
+                "end_date": "20/11/2024 10:02:09"
+            },
+            {
+                "name": "Round 2",
+                "matches": [
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "GT75651",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "wx24250",
+                        "player2_id": "Uy64774",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT15698",
+                        "player2_id": "Oo84614",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Af88030",
+                        "player2_id": "Kt38253",
+                        "score1": 1,
+                        "score2": 0
+                    }
+                ],
+                "start_date": "20/11/2024 10:02:28",
+                "end_date": "20/11/2024 10:02:35"
+            },
+            {
+                "name": "Round 3",
+                "matches": [
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "wx24250",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT15698",
+                        "player2_id": "GT75651",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Af88030",
+                        "player2_id": "Uy64774",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Oo84614",
+                        "player2_id": "Kt38253",
+                        "score1": 1,
+                        "score2": 0
+                    }
+                ],
+                "start_date": "20/11/2024 10:02:41",
+                "end_date": "20/11/2024 10:02:50"
+            },
+            {
+                "name": "Round 4",
+                "matches": [
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "Af88030",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT15698",
+                        "player2_id": "wx24250",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT75651",
+                        "player2_id": "Uy64774",
+                        "score1": 1,
+                        "score2": 0
+                    }
+                ],
+                "start_date": "20/11/2024 10:02:58",
+                "end_date": "20/11/2024 10:03:15"
+            }
+        ]
+    },
+    {
+        "id": "0002",
+        "name": "Tournoi des Champoions",
+        "location": "Cognac",
+        "start_date": "21/11/2024",
+        "end_date": null,
+        "description": "Tournoi des vainqueurs de tournois",
+        "number_of_rounds": 4,
+        "completed": false,
+        "players": [],
+        "rounds": []
+    }
+]
