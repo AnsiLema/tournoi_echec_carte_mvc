@@ -24,12 +24,6 @@ Voici une présentation des fichiers principaux de l'application :
 |   |-- players.json
 |   |-- tournaments.json
 |
-|-- flake8-html
-|   |-- back.svg
-|   |-- file.svg
-|   |-- index.html
-|   |-- styles.css
-|
 |-- models
 |   |-- __init__.py
 |   |-- model_match.py
@@ -43,7 +37,7 @@ Voici une présentation des fichiers principaux de l'application :
 |   |-- player_view.py
 |   |-- tournament_view.py
 |
-|-- config.py
+|-- .flake8
 |-- main.py
 |-- README.md
 |-- requirements.txt
