@@ -1,5 +1,7 @@
 # Chess Tournament Application
 
+![Capture d’écran 2024-11-21 à 16 53 17](https://github.com/user-attachments/assets/2c23489a-2f34-4e7b-acb5-564d8dcc0872)
+
 ## Description
 
 Cette application permet de gérer un tournoi d'échecs en utilisant Python. Elle suit le schéma MVC (Model-View-Controller) afin de structurer le code de manière claire et séparée. Le but de l'application est de faciliter la gestion des joueurs, des tournois, ainsi que des scores et des rencontres entre les joueurs. L'application fonctionne hors-ligne, et utilise des fichiers JSON pour la persistance des données.
@@ -38,6 +40,7 @@ Voici une présentation des fichiers principaux de l'application :
 |   |-- tournament_view.py
 |
 |-- .flake8
+|-- config.py
 |-- main.py
 |-- README.md
 |-- requirements.txt
@@ -64,6 +67,7 @@ Voici une présentation des fichiers principaux de l'application :
   - **player_view.py** : Vue gérant les interactions utilisateur pour la gestion des joueurs.
   - **tournament_view.py** : Vue gérant les interactions utilisateur pour la gestion des tournois.
 
+- **.flake8** : Fichier de configuration de flake8 pour le rapport de qualité du code.
 - **config.py** : Fichier de configuration de l'application.
 - **main.py** : Point d'entrée principal pour lancer l'application.
 - **requirements.txt** : Fichier listant les dépendances requises pour le projet.
@@ -115,15 +119,11 @@ python main.py
 ## Générer un rapport flake8 en HTML
 Pour s'assurer de la qualité du code, vous pouvez utiliser flake8 pour générer un rapport en HTML. Voici comment procéder :
 
-1. Installez flake8 et le plugin flake8-html :
+1. Générez le rapport HTML, en entrant la commande dans le terminal :
    ```
-   pip install flake8 flake8-html
+   flake8
    ```
-2. Générez le rapport HTML :
-   ```
-   flake8 --format=html --htmldir=flake8-html
-   ```
-3. Le rapport sera généré dans le dossier `flake8-html` et vous pourrez ouvrir le fichier `index.html` dans votre navigateur pour voir les détails des erreurs et avertissements.
+2. Le rapport sera généré dans le dossier `flake8-html` et vous pourrez ouvrir le fichier `index.html` dans votre navigateur pour voir les détails des erreurs et avertissements.
 
 ## Utilisation
 L'application est utilisée via une interface en ligne de commande.
