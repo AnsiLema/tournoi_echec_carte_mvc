@@ -438,5 +438,307 @@
                 "end_date": "22/11/2024 18:00:48"
             }
         ]
+    },
+    {
+        "id": "0004",
+        "name": "`Tournoi du Samedi 23 novembre 2024",
+        "location": "Cognac",
+        "start_date": "23/11/2024",
+        "end_date": "23/11/2024",
+        "description": "Tournoi amical",
+        "number_of_rounds": 4,
+        "completed": true,
+        "players": [
+            {
+                "national_id": "FM85345",
+                "score": 2.5,
+                "opponents": [
+                    "AL12585",
+                    "NJ32154",
+                    "GT15698",
+                    "GT75651"
+                ]
+            },
+            {
+                "national_id": "AL12585",
+                "score": 2.0,
+                "opponents": [
+                    "FM85345",
+                    "Oo84614",
+                    "UN23627",
+                    "Ea80057"
+                ]
+            },
+            {
+                "national_id": "GT15698",
+                "score": 1.5,
+                "opponents": [
+                    "GT75651",
+                    "UN23627",
+                    "FM85345",
+                    "NJ32154"
+                ]
+            },
+            {
+                "national_id": "GT75651",
+                "score": 1.5,
+                "opponents": [
+                    "GT15698",
+                    "Ea80057",
+                    "NJ32154",
+                    "FM85345"
+                ]
+            },
+            {
+                "national_id": "Oo84614",
+                "score": 1.5,
+                "opponents": [
+                    "NJ32154",
+                    "AL12585",
+                    "Ea80057",
+                    "UN23627"
+                ]
+            },
+            {
+                "national_id": "NJ32154",
+                "score": 4,
+                "opponents": [
+                    "Oo84614",
+                    "FM85345",
+                    "GT75651",
+                    "GT15698"
+                ]
+            },
+            {
+                "national_id": "UN23627",
+                "score": 1.5,
+                "opponents": [
+                    "Ea80057",
+                    "GT15698",
+                    "AL12585",
+                    "Oo84614"
+                ]
+            },
+            {
+                "national_id": "Ea80057",
+                "score": 1.5,
+                "opponents": [
+                    "UN23627",
+                    "GT75651",
+                    "Oo84614",
+                    "AL12585"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "FM85345",
+                        "player2_id": "AL12585",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT15698",
+                        "player2_id": "GT75651",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "Oo84614",
+                        "player2_id": "NJ32154",
+                        "score1": 0,
+                        "score2": 1
+                    },
+                    {
+                        "player1_id": "UN23627",
+                        "player2_id": "Ea80057",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    }
+                ],
+                "start_date": "23/11/2024 11:16:40",
+                "end_date": "23/11/2024 11:16:59"
+            },
+            {
+                "name": "Round 2",
+                "matches": [
+                    {
+                        "player1_id": "FM85345",
+                        "player2_id": "NJ32154",
+                        "score1": 0,
+                        "score2": 1
+                    },
+                    {
+                        "player1_id": "GT15698",
+                        "player2_id": "UN23627",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "GT75651",
+                        "player2_id": "Ea80057",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "Oo84614",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    }
+                ],
+                "start_date": "23/11/2024 11:17:05",
+                "end_date": "23/11/2024 11:17:19"
+            },
+            {
+                "name": "Round 3",
+                "matches": [
+                    {
+                        "player1_id": "NJ32154",
+                        "player2_id": "GT75651",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "FM85345",
+                        "player2_id": "GT15698",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "UN23627",
+                        "player2_id": "AL12585",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "Oo84614",
+                        "player2_id": "Ea80057",
+                        "score1": 0,
+                        "score2": 1
+                    }
+                ],
+                "start_date": "23/11/2024 11:17:49",
+                "end_date": "23/11/2024 11:18:05"
+            },
+            {
+                "name": "Round 4",
+                "matches": [
+                    {
+                        "player1_id": "NJ32154",
+                        "player2_id": "GT15698",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "FM85345",
+                        "player2_id": "GT75651",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "UN23627",
+                        "player2_id": "Oo84614",
+                        "score1": 0,
+                        "score2": 1
+                    },
+                    {
+                        "player1_id": "Ea80057",
+                        "player2_id": "AL12585",
+                        "score1": 0,
+                        "score2": 1
+                    }
+                ],
+                "start_date": "23/11/2024 11:18:12",
+                "end_date": "23/11/2024 11:18:23"
+            }
+        ]
+    },
+    {
+        "id": "0005",
+        "name": "La famille",
+        "location": "alaville",
+        "start_date": "23/11/2024",
+        "end_date": "23/11/2024",
+        "description": "Tournoi familial",
+        "number_of_rounds": 2,
+        "completed": true,
+        "players": [
+            {
+                "national_id": "AL12585",
+                "score": 2,
+                "opponents": [
+                    "GT15698",
+                    "NJ32154"
+                ]
+            },
+            {
+                "national_id": "GT15698",
+                "score": 1,
+                "opponents": [
+                    "AL12585",
+                    "GT75651"
+                ]
+            },
+            {
+                "national_id": "GT75651",
+                "score": 0,
+                "opponents": [
+                    "NJ32154",
+                    "GT15698"
+                ]
+            },
+            {
+                "national_id": "NJ32154",
+                "score": 1,
+                "opponents": [
+                    "GT75651",
+                    "AL12585"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "GT15698",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT75651",
+                        "player2_id": "NJ32154",
+                        "score1": 0,
+                        "score2": 1
+                    }
+                ],
+                "start_date": "23/11/2024 11:53:50",
+                "end_date": "23/11/2024 11:53:58"
+            },
+            {
+                "name": "Round 2",
+                "matches": [
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "NJ32154",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT15698",
+                        "player2_id": "GT75651",
+                        "score1": 1,
+                        "score2": 0
+                    }
+                ],
+                "start_date": "23/11/2024 11:54:04",
+                "end_date": "23/11/2024 11:54:11"
+            }
+        ]
     }
 ]

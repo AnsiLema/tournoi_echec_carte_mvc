@@ -138,7 +138,7 @@ class TournamentController:
                 PlayerMenuView.display_invalid_entry()
 
     def start_tournament(self):
-        """Begins the tournament, marking it as completed when finished."""
+        """Begins the tournament, runs the tournament, marks it as completed when finished."""
         if not self.tournament or len(self.tournament.players) < 2:
             TournamentView.display_insufficient_players()
             return
