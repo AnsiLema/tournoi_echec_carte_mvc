@@ -59,7 +59,7 @@ def save_tournament(tournament_data):
             tournaments[i] = tournament_data
             break
     else:
-        tournaments.append(tournament_data)  # Add new tournament if not found
+        tournaments.append(tournament_data)
 
     # Save updated list of tournaments back to file
     save_all_tournaments(tournaments)

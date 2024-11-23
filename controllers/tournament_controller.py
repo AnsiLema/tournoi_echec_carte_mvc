@@ -37,11 +37,6 @@ class TournamentController:
         all_players = {p["national_id"]: Player.from_dict(p) for p in players_data}
         return all_players
 
-    def get_unfinished_tournaments(self):
-        """Retrieve only incomplete tournaments from tournaments.json."""
-        tournaments = load_all_tournaments()
-        return [t for t in tournaments if not t.get("completed", False)]
-
     def load_tournament_by_id(self, tournament_id):
         """Load a tournament by its ID and return the tournament object."""
         tournaments = load_all_tournaments()
@@ -80,11 +75,14 @@ class TournamentController:
 
         PlayerMenuView.display_ready_to_start()
 
+    def _is_player_already_added(self, national_id):
+        """Check if a player with the given national_id is already in the tournament."""
+        return any(player.national_id == national_id for player in self.tournament.players)
+
     def _add_new_player(self, players):
         last_name, first_name, date_of_birth, national_id = PlayerMenuView.display_add_player_menu()
 
-        # Vérifiez si le joueur est déjà ajouté au tournoi
-        if any(player.national_id == national_id for player in self.tournament.players):
+        if self._is_player_already_added(national_id):
             PlayerMenuView.display_player_already_added()
             return
 
@@ -118,8 +116,7 @@ class TournamentController:
                 if 0 <= choice < len(filtered_players):
                     selected_player = filtered_players[choice]
 
-                    # Vérifiez si le joueur est déjà ajouté au tournoi
-                    if any(player.national_id == selected_player["national_id"] for player in self.tournament.players):
+                    if self._is_player_already_added(selected_player["national_id"]):
                         PlayerMenuView.display_player_already_added()
                         continue
 
@@ -193,9 +190,7 @@ class TournamentController:
         return load_all_tournaments()
 
     def search_tournaments_by_name(self, search_str):
-        """Search for tournaments whose names contain the given letters,
-         case-insensitive.
-         """
+        """Search for tournaments whose names contain the given letters, case-insensitive."""
         tournaments = load_all_tournaments()
         return [t for t in tournaments
                 if search_str.lower() in t['name'].lower()]
@@ -213,22 +208,22 @@ class TournamentController:
 
     def get_tournament_players_sorted(self, tournament_id):
         """Return a list of players in a tournament, sorted alphabetically."""
-        # Charger les données des tournois et trouver le tournoi correspondant
+        # Load tournament data and find the matching tournament
         tournaments = load_all_tournaments()
         tournament = next((t for t in tournaments if t['id'] == tournament_id), None)
 
         if tournament:
-            # Charger tous les joueurs depuis players.json
+            # Load all players from players.json
             all_players = self.load_all_players()
 
-            # Récupérer les objets Player complets en utilisant national_id
+            # Retrieve full Player objects using national_id
             players = [
                 all_players[player_data['national_id']]
                 for player_data in tournament.get('players', [])
                 if player_data['national_id'] in all_players
             ]
 
-            # Trier les joueurs par 'last_name' (ordre alphabétique)
+            # Sort players by "last_name" (alphabetical order)
             sorted_players = sorted(players, key=lambda p: p.last_name)
             return sorted_players
 

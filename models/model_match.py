@@ -1,13 +1,5 @@
 class Match:
-    """
-    Class Match
 
-    Represents a game match between two players.
-
-    Attributes:
-    MATCH_SCORE : list
-        Pre-defined score outcomes for a match.
-    """
     MATCH_SCORE = [(1, 0), (0.5, 0.5), (0, 1)]
 
     def __init__(self, player1, player2):
@@ -39,9 +31,7 @@ class Match:
         self.match[1][0].score += self.match_score2
 
     def to_dict(self):
-        """Converts the Match instance
-        to a dictionary for JSON serialization.
-        """
+        """Converts the Match instance to a dictionary for JSON serialization."""
         return {
             "player1_id": self.match[0][0].id,
             "player2_id": self.match[1][0].id,

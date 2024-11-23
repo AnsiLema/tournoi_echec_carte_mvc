@@ -55,16 +55,19 @@ class ApplicationController:
                     else:
                         TournamentView.display_tournament_not_found()
                 elif report_choice == "4":
-                    # Afficher les joueurs triés par ordre alphabétique
+                    # Show players sorted alphabetically for a given tournament
                     players_sorted = self.tournament_controller.get_tournament_players_sorted(tournament_id)
                     TournamentView.display_tournament_players(players_sorted)
                 elif report_choice == "5":
+                    # Show rounds and matches for a given tournament
                     rounds = self.tournament_controller.get_tournament_rounds_and_matches(tournament_id)
                     TournamentView.display_tournament_rounds_and_matches(rounds, tournament)
             elif report_choice == "1":
+                # Display players from the database
                 players = self.tournament_controller.get_all_players_sorted()
                 TournamentView.display_all_players(players)
             elif report_choice == "2":
+                # Display all tournaments
                 tournaments = self.tournament_controller.get_all_tournaments()
                 TournamentView.display_all_tournaments(tournaments)
             elif report_choice == "6":

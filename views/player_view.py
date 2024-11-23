@@ -15,7 +15,7 @@ class PlayerMenuView:
         last_name = input("Nom : ")
         first_name = input("Prénom : ")
 
-        # Validation de la date de naissance
+        # Making sure the date of birth is a valid date
         while True:
             date_of_birth = input("Date de naissance (format: JJ/MM/AAAA) : ")
             if PlayerMenuView.is_valid_date(date_of_birth):
