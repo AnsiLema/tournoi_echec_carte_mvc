@@ -94,7 +94,8 @@ class TournamentView:
         """Display all players in alphabetical order."""
         print("\n=== Liste de tous les joueurs ===")
         for index, player in enumerate(players, start=1):
-            print(f"{index}. {player['last_name']} {player['first_name']} (ID: {player['national_id']})")
+            print(f"{index}. {player['last_name']} {player['first_name']} (ID: {player['national_id']}) "
+                  f"Date de naissance: {player['date_of_birth']}")
         print(f"\nNombre total de joueurs : {len(players)}\n")
 
     @staticmethod
