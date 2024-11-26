@@ -61,7 +61,8 @@ class ApplicationController:
                 elif report_choice == "5":
                     # Show rounds and matches for a given tournament
                     rounds = self.tournament_controller.get_tournament_rounds_and_matches(tournament_id)
-                    TournamentView.display_tournament_rounds_and_matches(rounds, tournament)
+                    prepared_rounds = TournamentController.prepare_rounds_and_matches(rounds, tournament)
+                    TournamentView.display_tournament_rounds_and_matches(prepared_rounds)
             elif report_choice == "1":
                 # Display players from the database
                 players = self.tournament_controller.get_all_players_sorted()

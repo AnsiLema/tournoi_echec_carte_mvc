@@ -1,6 +1,7 @@
 from config import (load_players, save_players,
                     load_all_tournaments, save_tournament)
 from models.model_player import Player
+from models.model_match import Match
 from models.model_tournament import Tournament
 from views.tournament_view import TournamentView
 from views.player_view import PlayerMenuView
@@ -237,3 +238,29 @@ class TournamentController:
         if tournament:
             return tournament.get('rounds', [])
         return []
+
+    @staticmethod
+    def prepare_rounds_and_matches(rounds, tournament):
+        """Transform rounds and matches into a format suitable for the view."""
+        prepared_rounds = []
+        for round_info in rounds:
+            prepared_matches = []
+            for match_data in round_info.get('matches', []):
+                match = Match.from_dict(match_data, tournament)
+                if match:
+                    prepared_matches.append({
+                        'player1_name': str(match.match[0][0]),
+                        'player2_name': str(match.match[1][0]),
+                        'score1': match.match_score1,
+                        'score2': match.match_score2
+                    })
+                else:
+                    prepared_matches.append({'error': "Match invalide ou joueurs introuvables"})
+
+            prepared_rounds.append({
+                'name': round_info['name'],
+                'start_date': round_info.get('start_date', 'Date de début non définie'),
+                'end_date': round_info.get('end_date', 'Date de fin non définie'),
+                'matches': prepared_matches
+            })
+        return prepared_rounds

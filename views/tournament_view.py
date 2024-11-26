@@ -1,4 +1,4 @@
-from models.model_match import Match
+# from models.model_match import Match
 
 
 class TournamentView:
@@ -107,26 +107,20 @@ class TournamentView:
                   f" Date de début: {tournament['start_date']}")
 
     @staticmethod
-    def display_tournament_rounds_and_matches(rounds, tournament):
+    def display_tournament_rounds_and_matches(rounds):
         """Display all rounds and matches of a tournament."""
         print("\n=== Tours et Matchs du Tournoi ===")
         for round_info in rounds:
-            start_date = round_info.get("start_date", "Date de début non définie")
-            end_date = round_info.get("end_date", "Date de fin non définie")
             print(f"Tour: {round_info['name']}")
-            print(f"  Date de début: {start_date}")
-            print(f"  Date de fin: {end_date}")
+            print(f"  Date de début: {round_info['start_date']}")
+            print(f"  Date de fin: {round_info['end_date']}")
 
-            for match_data in round_info.get('matches', []):
-                match = Match.from_dict(match_data, tournament)
-                if match:
-                    player1_name = match.match[0][0].__str__()
-                    player2_name = match.match[1][0].__str__()
-                    score1 = match.match_score1
-                    score2 = match.match_score2
-                    print(f"  Match: {player1_name} vs {player2_name} - Résultat: {score1} - {score2}")
+            for match_info in round_info['matches']:
+                if 'error' in match_info:
+                    print(f"  {match_info['error']}")
                 else:
-                    print("  Erreur: Match invalide ou joueurs introuvables.")
+                    print(f"  Match: {match_info['player1_name']} vs {match_info['player2_name']} "
+                          f"- Résultat: {match_info['score1']} - {match_info['score2']}")
 
     @staticmethod
     def display_rankings(players):
