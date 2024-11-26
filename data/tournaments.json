@@ -1,0 +1,522 @@
+[
+    {
+        "id": "0001",
+        "name": "Tournoi de Test",
+        "location": "Cognac",
+        "start_date": "20/11/2024",
+        "end_date": "26/11/2024",
+        "description": "Test",
+        "number_of_rounds": 4,
+        "completed": true,
+        "players": [
+            {
+                "national_id": "AL12585",
+                "score": 2.0,
+                "opponents": [
+                    "pF48482",
+                    "yV50863",
+                    "Zg70225",
+                    "NJ32154"
+                ]
+            },
+            {
+                "national_id": "pF48482",
+                "score": 1.0,
+                "opponents": [
+                    "AL12585",
+                    "Ea80057",
+                    "LO98254",
+                    "hE47292"
+                ]
+            },
+            {
+                "national_id": "Zg70225",
+                "score": 2.0,
+                "opponents": [
+                    "NJ32154",
+                    "LO98254",
+                    "AL12585",
+                    "yV50863"
+                ]
+            },
+            {
+                "national_id": "NJ32154",
+                "score": 2.0,
+                "opponents": [
+                    "Zg70225",
+                    "hE47292",
+                    "yV50863",
+                    "AL12585"
+                ]
+            },
+            {
+                "national_id": "Ea80057",
+                "score": 0.5,
+                "opponents": [
+                    "yV50863",
+                    "pF48482",
+                    "hE47292",
+                    "LO98254"
+                ]
+            },
+            {
+                "national_id": "yV50863",
+                "score": 3.5,
+                "opponents": [
+                    "Ea80057",
+                    "AL12585",
+                    "NJ32154",
+                    "Zg70225"
+                ]
+            },
+            {
+                "national_id": "LO98254",
+                "score": 2.5,
+                "opponents": [
+                    "hE47292",
+                    "Zg70225",
+                    "pF48482",
+                    "Ea80057"
+                ]
+            },
+            {
+                "national_id": "hE47292",
+                "score": 2.5,
+                "opponents": [
+                    "LO98254",
+                    "NJ32154",
+                    "Ea80057",
+                    "pF48482"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "pF48482",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Zg70225",
+                        "player2_id": "NJ32154",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "Ea80057",
+                        "player2_id": "yV50863",
+                        "score1": 0,
+                        "score2": 1
+                    },
+                    {
+                        "player1_id": "LO98254",
+                        "player2_id": "hE47292",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    }
+                ],
+                "start_date": "26/11/2024 09:03:52",
+                "end_date": "26/11/2024 09:04:16"
+            },
+            {
+                "name": "Round 2",
+                "matches": [
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "yV50863",
+                        "score1": 0,
+                        "score2": 1
+                    },
+                    {
+                        "player1_id": "Zg70225",
+                        "player2_id": "LO98254",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "NJ32154",
+                        "player2_id": "hE47292",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "pF48482",
+                        "player2_id": "Ea80057",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    }
+                ],
+                "start_date": "26/11/2024 09:04:24",
+                "end_date": "26/11/2024 09:04:33"
+            },
+            {
+                "name": "Round 3",
+                "matches": [
+                    {
+                        "player1_id": "yV50863",
+                        "player2_id": "NJ32154",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "Zg70225",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "LO98254",
+                        "player2_id": "pF48482",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "Ea80057",
+                        "player2_id": "hE47292",
+                        "score1": 0,
+                        "score2": 1
+                    }
+                ],
+                "start_date": "26/11/2024 09:04:39",
+                "end_date": "26/11/2024 09:04:52"
+            },
+            {
+                "name": "Round 4",
+                "matches": [
+                    {
+                        "player1_id": "yV50863",
+                        "player2_id": "Zg70225",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "NJ32154",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "LO98254",
+                        "player2_id": "Ea80057",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "hE47292",
+                        "player2_id": "pF48482",
+                        "score1": 1,
+                        "score2": 0
+                    }
+                ],
+                "start_date": "26/11/2024 09:04:56",
+                "end_date": "26/11/2024 09:05:15"
+            }
+        ]
+    },
+    {
+        "id": "0002",
+        "name": "Test 2",
+        "location": "Malaville",
+        "start_date": "26/11/2024",
+        "end_date": "26/11/2024",
+        "description": "Test 2",
+        "number_of_rounds": 4,
+        "completed": true,
+        "players": [
+            {
+                "national_id": "KI48752",
+                "score": 2.0,
+                "opponents": [
+                    "AL12585",
+                    "uC31391",
+                    "GT75651",
+                    "Zo12395"
+                ]
+            },
+            {
+                "national_id": "AL12585",
+                "score": 1.0,
+                "opponents": [
+                    "KI48752",
+                    "iL05796",
+                    "AO35947",
+                    "pm73926"
+                ]
+            },
+            {
+                "national_id": "GT75651",
+                "score": 2.0,
+                "opponents": [
+                    "Zo12395",
+                    "AO35947",
+                    "KI48752",
+                    "uC31391"
+                ]
+            },
+            {
+                "national_id": "Zo12395",
+                "score": 2.0,
+                "opponents": [
+                    "GT75651",
+                    "pm73926",
+                    "uC31391",
+                    "KI48752"
+                ]
+            },
+            {
+                "national_id": "iL05796",
+                "score": 1.5,
+                "opponents": [
+                    "uC31391",
+                    "AL12585",
+                    "pm73926",
+                    "AO35947"
+                ]
+            },
+            {
+                "national_id": "uC31391",
+                "score": 3.5,
+                "opponents": [
+                    "iL05796",
+                    "KI48752",
+                    "Zo12395",
+                    "GT75651"
+                ]
+            },
+            {
+                "national_id": "AO35947",
+                "score": 1.5,
+                "opponents": [
+                    "pm73926",
+                    "GT75651",
+                    "AL12585",
+                    "iL05796"
+                ]
+            },
+            {
+                "national_id": "pm73926",
+                "score": 2.5,
+                "opponents": [
+                    "AO35947",
+                    "Zo12395",
+                    "iL05796",
+                    "AL12585"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "KI48752",
+                        "player2_id": "AL12585",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT75651",
+                        "player2_id": "Zo12395",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "iL05796",
+                        "player2_id": "uC31391",
+                        "score1": 0,
+                        "score2": 1
+                    },
+                    {
+                        "player1_id": "AO35947",
+                        "player2_id": "pm73926",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    }
+                ],
+                "start_date": "26/11/2024 11:20:54",
+                "end_date": "26/11/2024 11:21:11"
+            },
+            {
+                "name": "Round 2",
+                "matches": [
+                    {
+                        "player1_id": "KI48752",
+                        "player2_id": "uC31391",
+                        "score1": 0,
+                        "score2": 1
+                    },
+                    {
+                        "player1_id": "GT75651",
+                        "player2_id": "AO35947",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "Zo12395",
+                        "player2_id": "pm73926",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "iL05796",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    }
+                ],
+                "start_date": "26/11/2024 11:22:29",
+                "end_date": "26/11/2024 11:22:55"
+            },
+            {
+                "name": "Round 3",
+                "matches": [
+                    {
+                        "player1_id": "uC31391",
+                        "player2_id": "Zo12395",
+                        "score1": 1,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "KI48752",
+                        "player2_id": "GT75651",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "AO35947",
+                        "player2_id": "AL12585",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "iL05796",
+                        "player2_id": "pm73926",
+                        "score1": 0,
+                        "score2": 1
+                    }
+                ],
+                "start_date": "26/11/2024 11:23:14",
+                "end_date": "26/11/2024 11:24:16"
+            },
+            {
+                "name": "Round 4",
+                "matches": [
+                    {
+                        "player1_id": "uC31391",
+                        "player2_id": "GT75651",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "KI48752",
+                        "player2_id": "Zo12395",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "AO35947",
+                        "player2_id": "iL05796",
+                        "score1": 0,
+                        "score2": 1
+                    },
+                    {
+                        "player1_id": "pm73926",
+                        "player2_id": "AL12585",
+                        "score1": 1,
+                        "score2": 0
+                    }
+                ],
+                "start_date": "26/11/2024 11:24:57",
+                "end_date": "26/11/2024 11:25:45"
+            }
+        ]
+    },
+    {
+        "id": "0003",
+        "name": "Mini-tournoi",
+        "location": "Angouleme",
+        "start_date": "26/11/2024",
+        "end_date": "26/11/2024",
+        "description": "Tournoi avec seulement 2 tours",
+        "number_of_rounds": 2,
+        "completed": true,
+        "players": [
+            {
+                "national_id": "GT75651",
+                "score": 1.5,
+                "opponents": [
+                    "NJ32154",
+                    "Eg93235"
+                ]
+            },
+            {
+                "national_id": "NJ32154",
+                "score": 0,
+                "opponents": [
+                    "GT75651",
+                    "iL05796"
+                ]
+            },
+            {
+                "national_id": "Eg93235",
+                "score": 1.5,
+                "opponents": [
+                    "iL05796",
+                    "GT75651"
+                ]
+            },
+            {
+                "national_id": "iL05796",
+                "score": 1.0,
+                "opponents": [
+                    "Eg93235",
+                    "NJ32154"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "GT75651",
+                        "player2_id": "NJ32154",
+                        "score1": 1.0,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Eg93235",
+                        "player2_id": "iL05796",
+                        "score1": 1.0,
+                        "score2": 0
+                    }
+                ],
+                "start_date": "26/11/2024 11:58:32",
+                "end_date": "26/11/2024 11:58:50"
+            },
+            {
+                "name": "Round 2",
+                "matches": [
+                    {
+                        "player1_id": "GT75651",
+                        "player2_id": "Eg93235",
+                        "score1": 0.5,
+                        "score2": 0.5
+                    },
+                    {
+                        "player1_id": "NJ32154",
+                        "player2_id": "iL05796",
+                        "score1": 0,
+                        "score2": 1.0
+                    }
+                ],
+                "start_date": "26/11/2024 11:59:01",
+                "end_date": "26/11/2024 11:59:10"
+            }
+        ]
+    }
+]

@@ -1,6 +1,6 @@
 class Match:
 
-    MATCH_SCORE = [(1, 0), (0.5, 0.5), (0, 1)]
+    MATCH_SCORE = [(1.0, 0), (0.5, 0.5), (0, 1.0)]
 
     def __init__(self, player1, player2):
         self.match = [
