@@ -1,0 +1,63 @@
+[
+    {
+        "id": "0001",
+        "name": "Mini",
+        "location": "Cognac",
+        "start_date": "26/11/2024",
+        "end_date": null,
+        "description": "Tournoi en 2 tours",
+        "number_of_rounds": 2,
+        "completed": false,
+        "players": [
+            {
+                "national_id": "AL12585",
+                "score": 1.0,
+                "opponents": [
+                    "GT15698"
+                ]
+            },
+            {
+                "national_id": "GT15698",
+                "score": 0,
+                "opponents": [
+                    "AL12585"
+                ]
+            },
+            {
+                "national_id": "GT75651",
+                "score": 0,
+                "opponents": [
+                    "ZE35207"
+                ]
+            },
+            {
+                "national_id": "ZE35207",
+                "score": 1.0,
+                "opponents": [
+                    "GT75651"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "AL12585",
+                        "player2_id": "GT15698",
+                        "score1": 1.0,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "GT75651",
+                        "player2_id": "ZE35207",
+                        "score1": 0,
+                        "score2": 1.0
+                    }
+                ],
+                "start_date": "26/11/2024 13:00:49",
+                "end_date": "26/11/2024 13:03:41"
+            }
+        ]
+    }
+]
