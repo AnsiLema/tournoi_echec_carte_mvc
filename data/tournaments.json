@@ -59,5 +59,257 @@
                 "end_date": "26/11/2024 13:03:41"
             }
         ]
+    },
+    {
+        "id": "0002",
+        "name": "Tournoi des Titans",
+        "location": "Paris",
+        "start_date": "27/11/2024",
+        "end_date": "27/11/2024",
+        "description": "Rencontre au sommet de l'échiquier",
+        "number_of_rounds": 2,
+        "completed": true,
+        "players": [
+            {
+                "national_id": "vB13568",
+                "score": 2.0,
+                "opponents": [
+                    "Ea80057",
+                    "uv62808"
+                ]
+            },
+            {
+                "national_id": "Ea80057",
+                "score": 0,
+                "opponents": [
+                    "vB13568",
+                    "Qd80635"
+                ]
+            },
+            {
+                "national_id": "Qd80635",
+                "score": 1.0,
+                "opponents": [
+                    "uv62808",
+                    "Ea80057"
+                ]
+            },
+            {
+                "national_id": "uv62808",
+                "score": 1.0,
+                "opponents": [
+                    "Qd80635",
+                    "vB13568"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "vB13568",
+                        "player2_id": "Ea80057",
+                        "score1": 1.0,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Qd80635",
+                        "player2_id": "uv62808",
+                        "score1": 0,
+                        "score2": 1.0
+                    }
+                ],
+                "start_date": "27/11/2024 10:41:25",
+                "end_date": "27/11/2024 10:41:50"
+            },
+            {
+                "name": "Round 2",
+                "matches": [
+                    {
+                        "player1_id": "vB13568",
+                        "player2_id": "uv62808",
+                        "score1": 1.0,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Ea80057",
+                        "player2_id": "Qd80635",
+                        "score1": 0,
+                        "score2": 1.0
+                    }
+                ],
+                "start_date": "27/11/2024 10:42:02",
+                "end_date": "27/11/2024 10:42:31"
+            }
+        ]
+    },
+    {
+        "id": "0003",
+        "name": "Tournoi factice",
+        "location": "Bordeaux",
+        "start_date": "20/11/2024",
+        "end_date": "27/11/2024",
+        "description": "Tournoi pour de faux",
+        "number_of_rounds": 2,
+        "completed": true,
+        "players": [
+            {
+                "national_id": "WV34253",
+                "score": 2.0,
+                "opponents": [
+                    "Gs23971",
+                    "ow39624"
+                ]
+            },
+            {
+                "national_id": "Gs23971",
+                "score": 0,
+                "opponents": [
+                    "WV34253",
+                    "Oo84614"
+                ]
+            },
+            {
+                "national_id": "Oo84614",
+                "score": 1.0,
+                "opponents": [
+                    "ow39624",
+                    "Gs23971"
+                ]
+            },
+            {
+                "national_id": "ow39624",
+                "score": 1.0,
+                "opponents": [
+                    "Oo84614",
+                    "WV34253"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "WV34253",
+                        "player2_id": "Gs23971",
+                        "score1": 1.0,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Oo84614",
+                        "player2_id": "ow39624",
+                        "score1": 0,
+                        "score2": 1.0
+                    }
+                ],
+                "start_date": "27/11/2024 17:28:18",
+                "end_date": "27/11/2024 17:28:24"
+            },
+            {
+                "name": "Round 2",
+                "matches": [
+                    {
+                        "player1_id": "WV34253",
+                        "player2_id": "ow39624",
+                        "score1": 1.0,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "Gs23971",
+                        "player2_id": "Oo84614",
+                        "score1": 0,
+                        "score2": 1.0
+                    }
+                ],
+                "start_date": "27/11/2024 17:30:32",
+                "end_date": "27/11/2024 17:30:37"
+            }
+        ]
+    },
+    {
+        "id": "0004",
+        "name": "Tournoi de Charente",
+        "location": "Jonzac",
+        "start_date": "27/11/2024",
+        "end_date": "27/11/2024",
+        "description": "Cash prize de 2 Euros",
+        "number_of_rounds": 2,
+        "completed": true,
+        "players": [
+            {
+                "national_id": "ue94925",
+                "score": 2.0,
+                "opponents": [
+                    "bb41868",
+                    "yV50863"
+                ]
+            },
+            {
+                "national_id": "bb41868",
+                "score": 0,
+                "opponents": [
+                    "ue94925",
+                    "pF48482"
+                ]
+            },
+            {
+                "national_id": "pF48482",
+                "score": 1.0,
+                "opponents": [
+                    "yV50863",
+                    "bb41868"
+                ]
+            },
+            {
+                "national_id": "yV50863",
+                "score": 1.0,
+                "opponents": [
+                    "pF48482",
+                    "ue94925"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player1_id": "ue94925",
+                        "player2_id": "bb41868",
+                        "score1": 1.0,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "pF48482",
+                        "player2_id": "yV50863",
+                        "score1": 0,
+                        "score2": 1.0
+                    }
+                ],
+                "start_date": "27/11/2024 17:43:13",
+                "end_date": "27/11/2024 17:43:16"
+            },
+            {
+                "name": "Round 2",
+                "matches": [
+                    {
+                        "player1_id": "ue94925",
+                        "player2_id": "yV50863",
+                        "score1": 1.0,
+                        "score2": 0
+                    },
+                    {
+                        "player1_id": "bb41868",
+                        "player2_id": "pF48482",
+                        "score1": 0,
+                        "score2": 1.0
+                    }
+                ],
+                "start_date": "27/11/2024 17:43:20",
+                "end_date": "27/11/2024 17:43:25"
+            }
+        ]
     }
 ]

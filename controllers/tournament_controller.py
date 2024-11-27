@@ -157,7 +157,10 @@ class TournamentController:
 
             current_round.finish_round()
             self._save_current_tournament()
-            TournamentView.display_rankings(self.tournament.players)
+
+            # Display rankings only for intermediate rounds
+            if round_num < self.tournament.number_of_rounds:
+                TournamentView.display_rankings(self.tournament.players)
 
             # Do not ask to continue if it's the last round
             if round_num == self.tournament.number_of_rounds:
