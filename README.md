@@ -1,7 +1,5 @@
 # Chess Tournament Application
 
-![Capture d’écran 2024-11-21 à 16 53 17](https://github.com/user-attachments/assets/2c23489a-2f34-4e7b-acb5-564d8dcc0872)
-
 ## Description
 
 Cette application permet de gérer un tournoi d'échecs en utilisant Python. Elle suit le schéma MVC (Model-View-Controller) afin de structurer le code de manière claire et séparée. Le but de l'application est de faciliter la gestion des joueurs, des tournois, ainsi que des scores et des rencontres entre les joueurs. L'application fonctionne hors-ligne, et utilise des fichiers JSON pour la persistance des données.
@@ -115,6 +113,7 @@ Une fois l'environnement virtuel activé, lancez l'application :
 ``` 
 python main.py
 ```
+![Capture d’écran 2024-11-21 à 16 53 17](https://github.com/user-attachments/assets/2c23489a-2f34-4e7b-acb5-564d8dcc0872)
 
 ## Générer un rapport flake8 en HTML
 Pour s'assurer de la qualité du code, vous pouvez utiliser flake8 pour générer un rapport en HTML. Voici comment procéder :
