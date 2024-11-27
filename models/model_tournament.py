@@ -4,6 +4,7 @@ from models.model_round import Round
 
 
 class Tournament:
+    """Represents a tournament."""
     def __init__(self, name,
                  location,
                  start_date,
@@ -49,8 +50,7 @@ class Tournament:
             player2.opponents.append(player1.national_id)
 
     def generate_pairs(self):
-        """Generates unique pairs for the matches
-        based on player scores and previous opponents.
+        """Generates unique pairs for the matches based on player scores and previous opponents.
         """
         sorted_players = sorted(self.players,
                                 key=lambda p: p.score,

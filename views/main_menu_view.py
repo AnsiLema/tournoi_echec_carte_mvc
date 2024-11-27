@@ -3,6 +3,7 @@ from datetime import datetime
 
 
 class MainMenuView:
+    """Class for displaying the main menu and handling user input."""
     @staticmethod
     def display_main_menu():
         """Display the main menu and return the user's choice."""

@@ -3,6 +3,7 @@ from config import PLAYERS_JSON_PATH
 
 
 class Player:
+    """Represents a player in the tournament."""
     def __init__(self, last_name, first_name, date_of_birth, national_id):
         self.last_name = last_name
         self.first_name = first_name

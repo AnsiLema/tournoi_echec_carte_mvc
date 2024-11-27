@@ -58,7 +58,15 @@ class TournamentController:
         return False
 
     def add_players(self):
-        """Manage adding players until the required number is reached."""
+        """
+        Method to add players required for a tournament.
+
+        This method ensures that the number of players is equal to double
+        the number of rounds in the tournament. It prompts the user to either
+        add a new player or select an existing one until the necessary number
+        of players is reached, then saves the tournament state and notifies
+        that the tournament is ready to start.
+        """
         required_players = self.tournament.number_of_rounds * 2
 
         while len(self.tournament.players) < required_players:
@@ -81,6 +89,10 @@ class TournamentController:
         return any(player.national_id == national_id for player in self.tournament.players)
 
     def _add_new_player(self, players):
+        """
+        Adds a new player to the list of players and the current tournament if they are not
+        already added.
+        """
         last_name, first_name, date_of_birth, national_id = PlayerMenuView.display_add_player_menu()
 
         if self._is_player_already_added(national_id):
@@ -101,6 +113,20 @@ class TournamentController:
         PlayerMenuView.display_add_player_success_menu()
 
     def _select_player(self, players):
+        """
+        Select a player from a list of players based on user input, apply a filter, and add the selected player to the
+        tournament if not already added.
+
+        Summary:
+            This method provides a menu to filter and select players in a tournament. If the player is
+            already added, it notifies the user. The process involves continuously prompting the user to
+            filter the list and select a player until a valid selection is made. The selected player is
+            then added to the tournament and the current state is saved.
+
+        Args:
+            players (list[dict]): List of player information dictionaries, where each dictionary contains player details
+                                  such as 'last_name', 'first_name', 'date_of_birth', and 'national_id'.
+        """
         while True:
             filter_str = PlayerMenuView.get_player_filter()
             filtered_players = [p for p in players if p["last_name"].lower().startswith(filter_str)]
@@ -139,7 +165,7 @@ class TournamentController:
                 PlayerMenuView.display_invalid_entry()
 
     def start_tournament(self):
-        """Begins the tournament, runs the tournament, marks it as completed when finished."""
+        """Start the tournament by iterating through rounds and matches."""
         if not self.tournament or len(self.tournament.players) < 2:
             TournamentView.display_insufficient_players()
             return
@@ -179,7 +205,7 @@ class TournamentController:
             TournamentView.display_final_results(self.tournament.players)
 
     def _save_current_tournament(self):
-        """Save or update the current tournament in tournaments.json."""
+        """ Saves the current tournament to tournaments.json."""
         if self.tournament:
             tournament_data = self.tournament.to_dict()
             save_tournament(tournament_data)

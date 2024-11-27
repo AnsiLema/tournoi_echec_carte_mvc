@@ -30,21 +30,25 @@ def save_json_data(data, file_path):
 
 # Load players from players.json
 def load_players():
+    """Load players from players.json."""
     return load_json_data(PLAYERS_JSON_PATH)
 
 
 # Save players to players.json
 def save_players(players):
+    """Save players to players.json."""
     save_json_data(players, PLAYERS_JSON_PATH)
 
 
 # Load all tournaments from tournaments.json
 def load_all_tournaments():
+    """Load all tournaments from tournaments.json."""
     return load_json_data(TOURNAMENTS_JSON_PATH)
 
 
 # Save all tournaments to tournaments.json
 def save_all_tournaments(tournaments):
+    """Save all tournaments to tournaments.json."""
     save_json_data(tournaments, TOURNAMENTS_JSON_PATH)
 
 

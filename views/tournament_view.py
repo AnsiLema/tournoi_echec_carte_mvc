@@ -1,6 +1,3 @@
-# from models.model_match import Match
-
-
 class TournamentView:
     @staticmethod
     def display_tournament_info(tournament):
@@ -39,6 +36,7 @@ class TournamentView:
 
     @staticmethod
     def get_match_result(player1, player2):
+        """Get the result of a match between two players."""
         while True:
             result = input(
                 f"Entrez le résultat pour le match entre {player1} et {player2} "
@@ -84,6 +82,7 @@ class TournamentView:
 
     @staticmethod
     def display_tournament_players(players):
+        """Display the players in alphabetical order."""
         print("\n=== Joueurs du Tournoi (ordre alphabétique) ===")
         for player in players:
             print(f"{player.last_name} {player.first_name} (ID: {player.national_id})")
@@ -150,6 +149,7 @@ class TournamentView:
 
     @staticmethod
     def ask_to_continue_after_round():
+        """Ask the user if they want to continue the tournament after a round."""
         return input("Souhaitez-vous continuer le tournoi ? (o/n) : ").strip().lower()
 
     @staticmethod

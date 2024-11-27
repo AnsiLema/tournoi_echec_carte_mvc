@@ -4,6 +4,7 @@ from views.tournament_view import TournamentView
 
 
 class ApplicationController:
+    """Main application controller."""
     def __init__(self):
         self.tournament_controller = TournamentController()
 

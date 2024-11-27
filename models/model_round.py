@@ -3,6 +3,7 @@ from models.model_match import Match
 
 
 class Round:
+    """Represents a round in a tournament."""
     def __init__(self, name):
         self.name = name
         self.matches = []
