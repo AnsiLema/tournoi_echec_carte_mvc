@@ -124,8 +124,7 @@ class TournamentController:
             then added to the tournament and the current state is saved.
 
         Args:
-            players (list[dict]): List of player information dictionaries, where each dictionary contains player details
-                                  such as 'last_name', 'first_name', 'date_of_birth', and 'national_id'.
+            players (list[dict]): List of player information dictionaries
         """
         while True:
             filter_str = PlayerMenuView.get_player_filter()
